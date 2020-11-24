@@ -40,6 +40,9 @@ class ActionDel(BronoteAction):
                 except OSError:
                     return Text.E_DIR_NOT_EMPTY.value
         else:
-            self.path.unlink()
+            try:
+                self.path.unlink()
+            except FileNotFoundError:
+                return Text.E_NO_SUCH.value
 
         return f"Removed {self.path}."

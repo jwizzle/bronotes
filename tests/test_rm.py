@@ -12,7 +12,8 @@ from bronotes.config import Text
     'base.md',
     'henk',
     'henk/henk.md',
-    'henk'
+    'henk',
+    'bladiebladoesntexist'
 ])
 def rm_fixt(request, cfg_fixt):
     """Fixture for the rm action class."""

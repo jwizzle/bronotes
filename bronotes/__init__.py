@@ -1,9 +1,4 @@
-"""Contain the main function of bronotes.
-
-Todo:
-    * Expand on the config options (user config in file, etc.)
-    * Implement something like git syncing
-"""
+"""Contain the main function of bronotes."""
 import argparse
 from bronotes.config import Cfg
 from bronotes.actions.add import ActionAdd

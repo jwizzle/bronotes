@@ -12,7 +12,6 @@ Functionality so far:
   * List notes dir in a tree
 
 Todo:
-  * Add -r flag where necessary, eg. file creation and rm on non empty folders
   * Stop forcing my chosen notes directory on the user
   * Add some intial configuration questions and possibly allow a user config yaml somewhere
   * Add some kind of 'set' action to manipulate the user config yml

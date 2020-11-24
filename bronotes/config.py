@@ -23,6 +23,7 @@ class Text(Enum):
     I_NO_DIR = 'No such directory to list.'
     I_EDIT_FINISHED = 'Finished editting the file.'
     E_FILE_NOT_FOUND = 'Error creating file, did you mean to use -r?'
+    E_NO_SUCH = 'No such file or directory.'
     E_EDITTING = 'Encountered an error editting.'
     E_DIR_NOT_EMPTY = 'Dir not empty, try -r.'
 
