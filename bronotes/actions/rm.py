@@ -20,7 +20,7 @@ class ActionDel(BronoteAction):
         '--recurse': {
             'short': '-r',
             'action': 'store_true',
-            'help': 'Recursivelt create parent directories.'
+            'help': 'Recursively create parent directories.'
         }
     }
 
