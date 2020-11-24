@@ -1,10 +1,8 @@
 """Test the edit action."""
-import os
 import pytest
 from pathlib import Path
 from types import SimpleNamespace
 from bronotes.actions.edit import ActionEdit
-from bronotes.config import Text
 
 
 @pytest.fixture(scope='function', params=[

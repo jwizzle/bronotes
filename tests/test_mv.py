@@ -1,6 +1,5 @@
 """Test the mv action."""
 import pytest
-from pathlib import Path
 import os
 from types import SimpleNamespace
 from bronotes.actions.mv import ActionMove
@@ -34,8 +33,7 @@ class TestMv():
 
     def test_process(self, mv_fixt, dir_fixt):
         (mv_fixt, origin, destination) = mv_fixt
-        result = mv_fixt.process()
-        print(result)
+        mv_fixt.process()
 
         if origin[-1] == '/':
             assert os.path.exists(dir_fixt / destination)
