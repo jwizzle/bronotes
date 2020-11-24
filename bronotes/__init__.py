@@ -1,7 +1,6 @@
 """Contain the main function of bronotes.
 
 Todo:
-    * Implement -r where necessary
     * Expand on the config options (user config in file, etc.)
     * Implement something like git syncing
 """
@@ -25,8 +24,8 @@ def main():
         ActionMove(cfg),
     ]
     parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(help='Bronote actions.')
 
+    subparsers = parser.add_subparsers(help='Bronote actions.')
     for action in actions:
         subparser = subparsers.add_parser(
             action.action, help=action.__doc__)
@@ -40,6 +39,16 @@ def main():
                 argument,
                 help=argdict['help'],
                 nargs=argdict['nargs']
+            )
+
+        for flag in action.flags.keys():
+            flagdict = action.flags[flag]
+
+            subparser.add_argument(
+                flagdict['short'],
+                flag,
+                action=flagdict['action'],
+                help=flagdict['help']
             )
 
     args = parser.parse_args()

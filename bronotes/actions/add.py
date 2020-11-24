@@ -15,10 +15,18 @@ class ActionAdd(BronoteAction):
             'nargs': None
         }
     }
-    flags = {}
+    flags = {
+        '--recurse': {
+            'short': '-r',
+            'action': 'store_true',
+            'help': 'Recursivelt create parent directories.'
+        }
+    }
 
     def init(self, args):
         """Construct the action."""
+        self.recurse = args.recurse
+
         if args.argument:
             self.path = Path(os.path.join(self.cfg.dir, args.argument))
         else:
@@ -47,6 +55,10 @@ class ActionAdd(BronoteAction):
 
     def __create_file(self):
         """Create the new file."""
+        if (self.recurse and
+                not os.path.exists(self.path.parents[0])):
+            os.makedirs(self.path.parents[0])
+
         try:
             with open(self.path, 'w'):
                 pass

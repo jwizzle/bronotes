@@ -7,6 +7,7 @@ from bronotes.actions.add import ActionAdd
 from bronotes.config import Text
 
 
+# TODO run these tests with and without recurse
 @pytest.fixture(scope='function', params=[
     'foo/',
     'foo/',
@@ -20,6 +21,7 @@ def add_fixt(request, cfg_fixt):
     action_add = ActionAdd(cfg_fixt)
     args = SimpleNamespace()
     args.argument = request.param
+    args.recurse = True
     action_add.init(args)
 
     return (action_add, request.param)

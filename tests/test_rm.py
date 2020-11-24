@@ -7,6 +7,7 @@ from bronotes.actions.rm import ActionDel
 from bronotes.config import Text
 
 
+# TODO Test this with recurse
 @pytest.fixture(scope='function', params=[
     'base.md',
     'henk',
@@ -20,6 +21,7 @@ def rm_fixt(request, cfg_fixt):
     args = SimpleNamespace()
 
     args.argument = argument
+    args.recurse = False
     action_rm.init(args)
 
     return (action_rm, argument)

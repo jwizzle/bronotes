@@ -75,7 +75,7 @@ class ActionList(BronoteAction):
             'nargs': '?'
         }
     }
-    flags = []
+    flags = {}
 
     def init(self, args):
         """Construct the action."""
