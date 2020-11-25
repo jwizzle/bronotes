@@ -15,6 +15,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/jwizzle/bronotes",
     packages=setuptools.find_packages(),
+    install_requires=[
+        'pyyaml'
+    ],
     entry_points={
         'console_scripts': [
             'bnote=bronotes:main',
