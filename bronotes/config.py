@@ -9,6 +9,37 @@ NOTES_DIR = Path(os.path.join(
 ))
 
 
+# TODO Finish this
+class Cfg():
+    """Represent the bronotes config.
+
+    Merges multiple levels of config and manages a single source of truth.
+    Reads from defaults, flags, and user defined files.
+    """
+
+    def __init__(self):
+        """Construct the config manager."""
+        self.dir = NOTES_DIR
+
+    def init(self):
+        """Post-construction initialization.
+
+        Will probably be needed in the future to handle some cli arguments.
+        """
+        self.__test_dir()
+
+    def __test_dir(self):
+        """Create the notes dir if it doesn't exist."""
+        if not os.path.exists(self.dir):
+            try:
+                os.mkdir(self.dir)
+            except OSError:
+                print(f"Creation of the directory {self.cfg.dir} failed.")
+            else:
+                print(
+                    f"Successfully created the directory {self.cfg.dir}.")
+
+
 class Text(Enum):
     """Module-level text constants.
 
@@ -26,15 +57,4 @@ class Text(Enum):
     E_NO_SUCH = 'No such file or directory.'
     E_EDITTING = 'Encountered an error editting.'
     E_DIR_NOT_EMPTY = 'Dir not empty, try -r.'
-
-
-class Cfg():
-    """Represent the bronotes config.
-
-    Merges multiple levels of config and manages a single source of truth.
-    Reads from defaults, flags, and user defined files.
-    """
-
-    def __init__(self):
-        """Construct the config manager."""
-        self.dir = NOTES_DIR
+    E_NOT_A_DIR = "That's note a directory, unable to create file."

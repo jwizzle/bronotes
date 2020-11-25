@@ -26,6 +26,7 @@ class ActionAdd(BronoteAction):
     def init(self, args):
         """Construct the action."""
         self.recurse = args.recurse
+        self.argument = args.argument
 
         if args.argument:
             self.path = Path(os.path.join(self.cfg.dir, args.argument))
@@ -65,10 +66,12 @@ class ActionAdd(BronoteAction):
             return f"Created {self.path}"
         except FileNotFoundError:
             return Text.E_FILE_NOT_FOUND.value
+        except NotADirectoryError:
+            return Text.E_NOT_A_DIR.value
 
     def __test_pathtype(self):
         """Is the given path a file or dir."""
-        if str(self.path)[-1] == '/':
+        if str(self.argument)[-1] == '/':
             return 'dir'
         else:
             return 'file'

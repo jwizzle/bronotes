@@ -23,5 +23,6 @@ def cfg_fixt(dir_fixt):
     """Create a config to use in tests."""
     cfg = Cfg()
     cfg.dir = dir_fixt
+    cfg.init()
 
     return cfg

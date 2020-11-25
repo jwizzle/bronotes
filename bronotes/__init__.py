@@ -61,11 +61,12 @@ def main():
 
     args = parser.parse_args()
 
+    cfg.init()
+
     # List as default action
     if not hasattr(args, 'action'):
         args.action = actions[2]
         args.dir = ''
 
     args.action.init(args)
-    args.action.test_dir()
     print(args.action.process())

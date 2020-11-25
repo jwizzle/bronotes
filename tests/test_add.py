@@ -8,6 +8,7 @@ from bronotes.config import Text
 
 
 # TODO run these tests with and without recurse
+# TODO Create a test that checks if whats created is what's expected (file/dir)
 @pytest.fixture(scope='function', params=[
     'foo/',
     'foo/',

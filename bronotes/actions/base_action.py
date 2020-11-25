@@ -1,5 +1,4 @@
 """Base action for bronotes."""
-import os
 from abc import ABC, abstractmethod
 
 
@@ -37,14 +36,3 @@ class BronoteAction(ABC):
     def process(self):
         """Process the action."""
         pass
-
-    def test_dir(self):
-        """Create the notes dir if it doesn't exist."""
-        if not os.path.exists(self.cfg.dir):
-            try:
-                os.mkdir(self.cfg.dir)
-            except OSError:
-                print(f"Creation of the directory {self.cfg.dir} failed.")
-            else:
-                print(
-                    f"Successfully created the directory {self.cfg.dir}.")
