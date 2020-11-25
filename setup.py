@@ -16,7 +16,8 @@ setuptools.setup(
     url="https://github.com/jwizzle/bronotes",
     packages=setuptools.find_packages(),
     install_requires=[
-        'pyyaml'
+        'pyyaml',
+        'shtab'
     ],
     entry_points={
         'console_scripts': [

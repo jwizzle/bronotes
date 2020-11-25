@@ -1,6 +1,7 @@
 """Contain the main function of bronotes."""
 import argparse
-from bronotes.config import Cfg
+import shtab
+from bronotes.config import cfg
 from bronotes.actions.add import ActionAdd
 from bronotes.actions.rm import ActionDel
 from bronotes.actions.edit import ActionEdit
@@ -18,7 +19,9 @@ def add_arguments(subparser, action):
             argument,
             help=argdict['help'],
             nargs=argdict['nargs']
-        )
+        ).complete = {
+            "zsh": f"_files -W {cfg.dir}",
+        }
 
 
 def add_flags(subparser, action):
@@ -44,9 +47,9 @@ def add_subparser(subparsers, action):
     add_flags(subparser, action)
 
 
-def main():
-    """Entry point for bronotes."""
-    cfg = Cfg()
+def get_main_parser():
+    """Get the main parser."""
+    cfg.init()
     actions = [
         ActionAdd(cfg),
         ActionDel(cfg),
@@ -55,19 +58,24 @@ def main():
         ActionMove(cfg),
         ActionSet(cfg),
     ]
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog='bnote')
     subparsers = parser.add_subparsers(help='Bronote actions.')
 
     for action in actions:
         add_subparser(subparsers, action)
 
+    return parser
+
+
+def main():
+    """Entry point for bronotes."""
+    parser = get_main_parser()
+
     args = parser.parse_args()
 
-    cfg.init()
-
-    # List as default action
     if not hasattr(args, 'action'):
-        args.action = actions[2]
+        list_action = ActionList(cfg)
+        args.action = list_action
         args.dir = ''
 
     args.action.init(args)
