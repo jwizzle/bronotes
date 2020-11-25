@@ -1,5 +1,4 @@
 """Set the bronotes config."""
-import os
 from bronotes.actions.base_action import BronoteAction
 from bronotes.config import Text
 from pathlib import Path

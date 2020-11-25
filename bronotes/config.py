@@ -22,10 +22,7 @@ class Cfg():
         self.user_cfg_file = self.user_cfg_dir / 'config.yml'
 
     def init(self):
-        """Post-construction initialization.
-
-        Is executed after arguments are collected.
-        """
+        """Post-construction initialization."""
         self.__test_global_cfg()
         self.__load_cfg()
         self.__test_notedir()
@@ -99,3 +96,6 @@ class Text(Enum):
     E_EDITTING = 'Encountered an error editting.'
     E_DIR_NOT_EMPTY = 'Dir not empty, try -r.'
     E_NOT_A_DIR = "That's note a directory, unable to create file."
+
+
+cfg = Cfg()

@@ -14,18 +14,17 @@ Functionality so far:
 ## Todo
 
   * Add something to keep folder in sync with git
-  * ZSH completions
 
 ## Installation and usage
 
 ```bash
 $ pip install bronotes
 
-$ bnote -h
-usage: bnote [-h] {add,rm,list,edit,mv,set} ...
+$ bnote -h 
+usage: bnote [-h] {add,rm,list,edit,mv,set,completions} ...
 
 positional arguments:
-  {add,rm,list,edit,mv,set}
+  {add,rm,list,edit,mv,set,completions}
                         Bronote actions.
     add                 Add a note or directory.
     rm                  Delete a note or directory.
@@ -33,9 +32,21 @@ positional arguments:
     edit                Edit a note.
     mv                  Move a note or directory.
     set                 Set config options.
+    completions         Generate zsh autocompletions.
 
 optional arguments:
   -h, --help            show this help message and exit
+
+$ bnote -h
+usage: bnote [-h] {add,rm,list,edit,mv,set} ...
 ```
 
 On first command a folder to be used is asked.
+
+### Completions
+
+For now there's no built-in completions.
+ZSH completions can be generated so you can place them where needed:
+```bash
+$ bnote completions | tee /home/jwiersma/.oh-my-zsh/completions/_BRONOTES
+```
