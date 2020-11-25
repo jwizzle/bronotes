@@ -6,6 +6,7 @@ from bronotes.actions.rm import ActionDel
 from bronotes.actions.edit import ActionEdit
 from bronotes.actions.list import ActionList
 from bronotes.actions.mv import ActionMove
+from bronotes.actions.set import ActionSet
 
 
 def add_arguments(subparser, action):
@@ -52,6 +53,7 @@ def main():
         ActionList(cfg),
         ActionEdit(cfg),
         ActionMove(cfg),
+        ActionSet(cfg),
     ]
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help='Bronote actions.')

@@ -29,7 +29,8 @@ class ActionAdd(BronoteAction):
         self.argument = args.argument
 
         if args.argument:
-            self.path = Path(os.path.join(self.cfg.dir, args.argument))
+            self.path = Path(os.path.join(
+                self.cfg.dir, args.argument))
         else:
             self.path = False
 

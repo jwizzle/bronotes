@@ -21,7 +21,8 @@ class ActionEdit(BronoteAction):
     def init(self, args):
         """Construct the action."""
         if args.file:
-            self.path = Path(os.path.join(self.cfg.dir, args.file))
+            self.path = Path(os.path.join(
+                self.cfg.dir, args.file))
         else:
             self.path = False
 

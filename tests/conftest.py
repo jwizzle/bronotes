@@ -22,7 +22,7 @@ def dir_fixt(tmpdir_factory):
 def cfg_fixt(dir_fixt):
     """Create a config to use in tests."""
     cfg = Cfg()
-    cfg.dir = dir_fixt
     cfg.init()
+    cfg.dir = dir_fixt
 
     return cfg
