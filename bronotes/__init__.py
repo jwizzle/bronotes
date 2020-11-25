@@ -8,6 +8,7 @@ from bronotes.actions.edit import ActionEdit
 from bronotes.actions.list import ActionList
 from bronotes.actions.mv import ActionMove
 from bronotes.actions.set import ActionSet
+from bronotes.actions.completions import ActionCompletions
 
 
 def add_arguments(subparser, action):
@@ -57,6 +58,7 @@ def get_main_parser():
         ActionEdit(cfg),
         ActionMove(cfg),
         ActionSet(cfg),
+        ActionCompletions(cfg),
     ]
     parser = argparse.ArgumentParser(prog='bnote')
     subparsers = parser.add_subparsers(help='Bronote actions.')
@@ -79,4 +81,7 @@ def main():
         args.dir = ''
 
     args.action.init(args)
-    print(args.action.process())
+    if args.action.action == 'completions':
+        print(args.action.process(parser))
+    else:
+        print(args.action.process())
