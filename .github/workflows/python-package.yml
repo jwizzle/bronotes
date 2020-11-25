@@ -37,6 +37,7 @@ jobs:
     - name: Test with pytest
       run: |
         touch ./config.yml
+        echo 'notes_dir: /Doesnt/matter/gets/overwritten/for/tests' >> ./config.yml
         pytest
     - name: Test docstrings
       run: |
