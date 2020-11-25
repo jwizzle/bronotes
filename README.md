@@ -10,10 +10,12 @@ Functionality so far:
   * Move notes and directories around
   * Edit notes with your $EDITOR
   * List notes dir in a tree
+  * Generate autocompletions for zsh
 
 ## Todo
 
   * Add something to keep folder in sync with git
+  * Add a 'find' action that starts editting on the first occurance of $filename in the tree
 
 ## Installation and usage
 
