@@ -1,6 +1,5 @@
 """Contain the main function of bronotes."""
 import argparse
-import shtab
 from bronotes.config import cfg
 from bronotes.actions.add import ActionAdd
 from bronotes.actions.rm import ActionDel
