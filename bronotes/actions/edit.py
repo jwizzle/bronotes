@@ -16,18 +16,27 @@ class ActionEdit(BronoteAction):
             'nargs': None
         }
     }
-    flags = {}
+    flags = {
+        '--search': {
+            'short': '-s',
+            'action': 'store_true',
+            'help': 'Search for a file instead of using a hard path.'
+        }
+    }
 
     def init(self, args):
         """Construct the action."""
-        if args.file:
+        if not args.search:
             self.path = Path(os.path.join(
                 self.cfg.dir, args.file))
         else:
-            self.path = False
+            self.path = self.find_note(args.file)
 
     def process(self):
         """Process the action."""
+        if self.path is None:
+            return Text.E_NO_SUCH.value
+
         try:
             os.system(f"{os.getenv('EDITOR')} {self.path}")
             return Text.I_EDIT_FINISHED.value

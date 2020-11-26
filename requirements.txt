@@ -1,2 +1,3 @@
 pyyaml
 shtab
+pyperclip

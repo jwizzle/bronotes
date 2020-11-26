@@ -15,9 +15,6 @@ Functionality so far:
 ## Todo
 
   * Add something to keep folder in sync with git
-  * Add a 'find' action that starts editting on the first occurance of $filename in the tree
-  * Add a show command
-  * Rethink what the bnote command without arguments should do, maybe show if it gets an argument and list if it doesn't?
 
 ## Installation and usage
 

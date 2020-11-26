@@ -17,7 +17,8 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         'pyyaml',
-        'shtab'
+        'shtab',
+        'pyperclip'
     ],
     entry_points={
         'console_scripts': [
