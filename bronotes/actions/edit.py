@@ -43,6 +43,7 @@ class ActionEdit(BronoteAction):
                 self.path = search_result
 
         try:
+            os.chdir(self.cfg.dir)
             os.system(f"{os.getenv('EDITOR')} {self.path}")
             if self.cfg.autosync:
                 self.sync()
