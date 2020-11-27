@@ -30,4 +30,7 @@ class ActionMove(BronoteAction):
         """Process the action."""
         shutil.move(self.origin, self.destination)
 
+        if self.cfg.autosync:
+            self.sync()
+
         return f"Moved {self.origin} to {self.destination}."

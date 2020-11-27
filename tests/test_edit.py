@@ -16,6 +16,7 @@ def edit_fixt(request, cfg_fixt):
     action_edit = ActionEdit(cfg_fixt)
     args = SimpleNamespace()
     args.file = request.param
+    args.search = False
     action_edit.init(args)
 
     return (action_edit, request.param)

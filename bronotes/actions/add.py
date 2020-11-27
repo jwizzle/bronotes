@@ -49,6 +49,8 @@ class ActionAdd(BronoteAction):
 
         if argtype == 'dir':
             os.makedirs(self.path)
+            if self.cfg.autosync:
+                self.sync()
         else:
             file = self.__create_file()
             return file
@@ -64,6 +66,8 @@ class ActionAdd(BronoteAction):
         try:
             with open(self.path, 'w'):
                 pass
+            if self.cfg.autosync:
+                self.sync()
             return f"Created {self.path}"
         except FileNotFoundError:
             return Text.E_FILE_NOT_FOUND.value

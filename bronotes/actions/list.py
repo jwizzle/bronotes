@@ -51,6 +51,9 @@ class Tree():
         """Handle a direntry returned by os.scandir."""
         prefix = self.__build_prefix(depth)
 
+        if entry.name[0] == '.':
+            return ''
+
         if entry.is_dir():
             tree = f"{prefix}{entry.name}/ \n"
             depth += 1

@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bronotes",
-    version="1.2.0",
+    version="1.3.0",
     author="j wizzle",
     author_email="info@hossel.net",
     description="A commandline note organization tool.",
@@ -17,7 +17,9 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         'pyyaml',
-        'shtab'
+        'shtab',
+        'pyperclip',
+        'gitpython'
     ],
     entry_points={
         'console_scripts': [
