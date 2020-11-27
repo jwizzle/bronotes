@@ -1,7 +1,6 @@
 """Module level config."""
 import os
 import yaml
-from git import Repo
 from enum import Enum
 from pathlib import Path
 

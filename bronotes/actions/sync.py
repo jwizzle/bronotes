@@ -1,10 +1,5 @@
 """Action to sync the notes dir with git."""
-import os
-from git import Repo
-from git.exc import InvalidGitRepositoryError
-from pathlib import Path
 from bronotes.actions.base_action import BronoteAction
-from bronotes.config import Text
 
 
 class ActionSync(BronoteAction):
