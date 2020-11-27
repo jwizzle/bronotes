@@ -39,6 +39,8 @@ class ActionEdit(BronoteAction):
 
         try:
             os.system(f"{os.getenv('EDITOR')} {self.path}")
+            if self.cfg.autosync:
+                self.sync()
             return Text.I_EDIT_FINISHED.value
         except Exception as exc:
             logging.error(exc)

@@ -18,7 +18,8 @@ setuptools.setup(
     install_requires=[
         'pyyaml',
         'shtab',
-        'pyperclip'
+        'pyperclip',
+        'gitpython'
     ],
     entry_points={
         'console_scripts': [

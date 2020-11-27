@@ -9,6 +9,7 @@ from bronotes.actions.mv import ActionMove
 from bronotes.actions.set import ActionSet
 from bronotes.actions.completions import ActionCompletions
 from bronotes.actions.show import ActionShow
+from bronotes.actions.sync import ActionSync
 
 actions = [
     ActionAdd(cfg),
@@ -19,6 +20,7 @@ actions = [
     ActionSet(cfg),
     ActionCompletions(cfg),
     ActionShow(cfg),
+    ActionSync(cfg),
 ]
 
 

@@ -1,6 +1,7 @@
 """Module level config."""
 import os
 import yaml
+from git import Repo
 from enum import Enum
 from pathlib import Path
 
@@ -33,6 +34,19 @@ class Cfg():
         self.__write_cfg()
         self.__load_cfg()
 
+    def enable_autosync(self):
+        """Enable auto syncing."""
+        self.dict['autosync'] = True
+        self.__write_cfg()
+        self.__load_cfg()
+
+    def disable_autosync(self):
+        """Disable auto syncing."""
+        self.dict['autosync'] = False
+        self.__write_cfg()
+        self.__load_cfg()
+
+    # TODO Ask if the user wants to clone a repo instead
     def __initial_config(self):
         """Initialize user config."""
         print(Text.I_NO_CONFIG.value)
@@ -40,7 +54,7 @@ class Cfg():
             'Where do you want to keep your notes? (full path): ')
 
         return {
-            'notes_dir': notes_dir
+            'notes_dir': notes_dir,
         }
 
     def __write_cfg(self):
@@ -52,6 +66,10 @@ class Cfg():
         with open(self.global_cfg_file, 'r') as file:
             self.dict = yaml.load(file, Loader=yaml.SafeLoader)
             self.dir = Path(self.dict['notes_dir'])
+            try:
+                self.autosync = self.dict['autosync']
+            except KeyError:
+                self.autosync = False
 
     def __test_global_cfg(self):
         """Create a global config file if it doesn't exist."""

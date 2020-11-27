@@ -14,7 +14,11 @@ Functionality so far:
 
 ## Todo
 
-  * Add something to keep folder in sync with git
+  * Fix up initial config with some git questions and the like
+  * Make show and edit fall back on the -s option when no path is found
+  * Exclude hidden folders and files
+  * A lot of new tests need to be done, big chances ugly non-caught errors are present.
+    * Especially git-related
 
 ## Installation and usage
 
