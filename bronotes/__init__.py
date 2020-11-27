@@ -1,5 +1,6 @@
 """Contain the main function of bronotes."""
 import argparse
+import logging
 from bronotes.config import cfg
 from bronotes.actions.add import ActionAdd
 from bronotes.actions.rm import ActionDel
@@ -65,6 +66,12 @@ def get_main_parser():
     """Get the main parser."""
     cfg.init()
     parser = argparse.ArgumentParser(prog='bnote')
+    parser.add_argument(
+        '-d',
+        '--debug',
+        action='store_true',
+        help='Set loglevel to debug.'
+    )
     subparsers = parser.add_subparsers(
         help='Bronote actions.', metavar='action')
 
@@ -87,7 +94,16 @@ def main():
 
     args.action.init(args)
 
-    if args.action.action == 'completions':
-        print(args.action.process(parser))
-    else:
-        print(args.action.process())
+    if args.debug:
+        logging.basicConfig(level=logging.DEBUG)
+
+    try:
+        if args.action.action == 'completions':
+            print(args.action.process(parser))
+        else:
+            print(args.action.process())
+    except Exception as exc:
+        logging.debug(exc)
+        print("There was an uncaught exception, \
+use --debug to show more info. And throw some output and what you \
+were doing to the dev while you're at it.")
