@@ -11,39 +11,19 @@ Functionality so far:
   * Edit notes with your $EDITOR
   * List notes dir in a tree
   * Generate autocompletions for zsh
+  * Sync with git
+  * Show and edit search for a note if no path to an existing file is given
 
 ## Todo
 
-  * Fix up initial config with some git questions and the like
-  * Make show and edit fall back on the -s option when no path is found
-  * Exclude hidden folders and files
+  * Create a git subcommand that basically just wraps the git cmd utility for more user control.
   * A lot of new tests need to be done, big chances ugly non-caught errors are present.
     * Especially git-related
 
-## Installation and usage
+## Installation
 
 ```bash
 $ pip install bronotes
-
-$ bnote -h 
-usage: bnote [-h] {add,rm,list,edit,mv,set,completions} ...
-
-positional arguments:
-  {add,rm,list,edit,mv,set,completions}
-                        Bronote actions.
-    add                 Add a note or directory.
-    rm                  Delete a note or directory.
-    list                Show the notes structure as a tree.
-    edit                Edit a note.
-    mv                  Move a note or directory.
-    set                 Set config options.
-    completions         Generate zsh autocompletions.
-
-optional arguments:
-  -h, --help            show this help message and exit
-
-$ bnote -h
-usage: bnote [-h] {add,rm,list,edit,mv,set} ...
 ```
 
 On first command a folder to be used is asked.
@@ -55,3 +35,37 @@ ZSH completions can be generated so you can place them where needed:
 ```bash
 $ bnote completions | tee /home/jwiersma/.oh-my-zsh/completions/_BRONOTES
 ```
+
+## Usage
+
+```bash
+$ bnote -h
+usage: bnote [-h] action ...
+
+positional arguments:
+  action       Bronote actions.
+    add        Add a note or directory.
+    rm         Delete a note or directory.
+    list       Show the notes structure as a tree.
+    edit       Edit a note.
+    mv         Move a note or directory.
+    set        Set config options.
+    completions
+               Generate zsh autocompletions.
+    show       Show the contents of a note.
+    sync       Sync the notes dir with git.
+
+optional arguments:
+  -h, --help   show this help message and exit
+```
+
+Subcommands have their own help pages.
+
+### Git
+
+You can use the sync command to keep a repo in sync with git. Using basic pull/push on master.
+If you want to have more control simply don't use this.
+If the repo isn't a git repo yet you will be asked to initialize an empty one and set up remotes.
+When quit halfway through this process it's probably better to either start over or just fix it manually.
+
+Autosyncing is possible, but will do so after every edit or add action. So figure out if you want that yourself.

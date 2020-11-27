@@ -37,6 +37,11 @@ class ActionEdit(BronoteAction):
         if self.path is None:
             return Text.E_NO_SUCH.value
 
+        if not os.path.isfile(self.path):
+            search_result = self.find_note(self.path.name)
+            if search_result:
+                self.path = search_result
+
         try:
             os.system(f"{os.getenv('EDITOR')} {self.path}")
             if self.cfg.autosync:

@@ -104,3 +104,4 @@ class BronoteAction(ABC):
             for file in files:
                 if filename in file:
                     return Path(f"{basepath}/{file}")
+        return False

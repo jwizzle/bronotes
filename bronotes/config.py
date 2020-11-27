@@ -45,7 +45,6 @@ class Cfg():
         self.__write_cfg()
         self.__load_cfg()
 
-    # TODO Ask if the user wants to clone a repo instead
     def __initial_config(self):
         """Initialize user config."""
         print(Text.I_NO_CONFIG.value)

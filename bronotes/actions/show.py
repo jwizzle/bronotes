@@ -39,19 +39,28 @@ class ActionShow(BronoteAction):
             self.note = self.find_note(args.note)
         self.copy = args.copy
 
+    def open(self, note):
+        """Return the contents of a note."""
+        with open(note) as n:
+            contents = n.read()
+
+            if self.copy:
+                pyperclip.copy(contents)
+
+            return contents
+
     def process(self):
         """Process this action."""
         try:
             if os.path.isfile(self.note):
-                with open(self.note) as note:
-                    contents = note.read()
-
-                    if self.copy:
-                        pyperclip.copy(contents)
-
-                    return contents
+                return self.open(self.note)
             else:
+                search_result = self.find_note(self.note.name)
+
+                if search_result:
+                    return self.open(search_result)
+
                 return Text.E_NO_SUCH.value
         except Exception as exc:
-            logging.debug(exc)
+            print(exc)
             return 'Error opening note.'
