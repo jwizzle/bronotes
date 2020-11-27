@@ -56,8 +56,12 @@ class BronoteAction(ABC):
         except AttributeError:
             return 'Git was not configured.'
 
-        pull_result = repo.git.pull('origin', 'master')
-        if pull_result != 'Already up to date.':
+        repo.git.remote('update')
+        commits_behind = len([i for i in repo.iter_commits(
+            'master..origin/master')])
+
+        if commits_behind > 0:
+            pull_result = repo.git.pull('origin', 'master')
             print(pull_result)
 
         if repo.is_dirty() or repo.untracked_files:
