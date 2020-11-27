@@ -33,7 +33,7 @@ On first command a folder to be used is asked.
 For now there's no built-in completions.
 ZSH completions can be generated so you can place them where needed:
 ```bash
-$ bnote completions | tee /home/jwiersma/.oh-my-zsh/completions/_BRONOTES
+$ bnote completions | tee ~/.oh-my-zsh/completions/_BRONOTES
 ```
 
 ## Usage
@@ -60,6 +60,7 @@ optional arguments:
 ```
 
 Subcommands have their own help pages.
+When using the edit or show subcommand, it falls back on the -s option if the path to your note is not valid.
 
 ### Git
 
