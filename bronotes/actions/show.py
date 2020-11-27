@@ -62,5 +62,5 @@ class ActionShow(BronoteAction):
 
                 return Text.E_NO_SUCH.value
         except Exception as exc:
-            print(exc)
+            logging.debug(exc)
             return 'Error opening note.'
