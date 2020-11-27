@@ -50,8 +50,11 @@ class BronoteAction(ABC):
         except InvalidGitRepositoryError:
             repo = self.repo_init()
 
-        if not repo.remotes:
-            return 'No remotes configured, go figure it out.'
+        try:
+            if not repo.remotes:
+                return 'No remotes configured, go figure it out.'
+        except AttributeError:
+            return 'Git was not configured.'
 
         pull_result = repo.git.pull('origin', 'master')
         if pull_result != 'Already up to date.':
