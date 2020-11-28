@@ -17,6 +17,7 @@ def list_fixt(request, cfg_fixt):
     action_list = ActionList(cfg_fixt)
     args = SimpleNamespace()
     args.dir = request.param
+    args.directories = False
     action_list.init(args)
 
     return (action_list, request.param)

@@ -11,6 +11,7 @@ from bronotes.actions.set import ActionSet
 from bronotes.actions.completions import ActionCompletions
 from bronotes.actions.show import ActionShow
 from bronotes.actions.sync import ActionSync
+from bronotes.actions.git import ActionGit
 
 actions = [
     ActionAdd(cfg),
@@ -22,44 +23,8 @@ actions = [
     ActionCompletions(cfg),
     ActionShow(cfg),
     ActionSync(cfg),
+    ActionGit(cfg),
 ]
-
-
-def add_arguments(subparser, action):
-    """Add an actions arguments to a subparser."""
-    for argument in action.arguments.keys():
-        argdict = action.arguments[argument]
-
-        subparser.add_argument(
-            argument,
-            help=argdict['help'],
-            nargs=argdict['nargs']
-        ).complete = {
-            "zsh": f"_files -W {cfg.dir}",
-        }
-
-
-def add_flags(subparser, action):
-    """Add an actions flags to a subparser."""
-    for flag in action.flags.keys():
-        flagdict = action.flags[flag]
-
-        subparser.add_argument(
-            flagdict['short'],
-            flag,
-            action=flagdict['action'],
-            help=flagdict['help']
-        )
-
-
-def add_subparser(subparsers, action):
-    """Add a subparser based on a actions arguments and flags."""
-    subparser = subparsers.add_parser(
-        action.action, help=action.__doc__)
-
-    subparser.set_defaults(action=action)
-    add_arguments(subparser, action)
-    add_flags(subparser, action)
 
 
 def get_main_parser():
@@ -76,7 +41,7 @@ def get_main_parser():
         help='Bronote actions.', metavar='action')
 
     for action in actions:
-        add_subparser(subparsers, action)
+        action.add_subparser(subparsers)
 
     return parser
 
@@ -85,7 +50,7 @@ def main():
     """Entry point for bronotes."""
     parser = get_main_parser()
 
-    args = parser.parse_args()
+    (args, extra_args) = parser.parse_known_args()
 
     if not hasattr(args, 'action'):
         list_action = ActionList(cfg)
@@ -100,6 +65,8 @@ def main():
     try:
         if args.action.action == 'completions':
             print(args.action.process(parser))
+        elif args.action.action == 'git':
+            print(args.action.process(extra_args))
         else:
             print(args.action.process())
     except Exception as exc:

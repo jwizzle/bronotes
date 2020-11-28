@@ -16,7 +16,6 @@ Functionality so far:
 
 ## Todo
 
-  * Create a git subcommand that basically just wraps the git cmd utility for more user control.
   * A lot of new tests need to be done, big chances ugly non-caught errors are present.
     * Especially git-related
 

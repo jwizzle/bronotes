@@ -43,18 +43,54 @@ class BronoteAction(ABC):
         """Process the action."""
         pass
 
+    def add_arguments(self, subparser):
+        """Add an actions arguments to a subparser."""
+        for argument in self.arguments.keys():
+            argdict = self.arguments[argument]
+
+            subparser.add_argument(
+                argument,
+                help=argdict['help'],
+                nargs=argdict['nargs']
+            ).complete = {
+                "zsh": f"_files -W {self.cfg.dir}",
+            }
+
+    def add_flags(self, subparser):
+        """Add an actions flags to a subparser."""
+        for flag in self.flags.keys():
+            flagdict = self.flags[flag]
+
+            subparser.add_argument(
+                flagdict['short'],
+                flag,
+                action=flagdict['action'],
+                help=flagdict['help']
+            )
+
+    def add_subparser(self, subparsers):
+        """Add a subparser based on a actions arguments and flags."""
+        subparser = subparsers.add_parser(
+            self.action, help=self.__doc__)
+
+        subparser.set_defaults(action=self)
+        self.add_arguments(subparser)
+        self.add_flags(subparser)
+
     def sync(self):
         """Sync with git."""
         try:
             repo = Repo(self.cfg.dir)
         except InvalidGitRepositoryError:
-            repo = self.repo_init()
+            return 'Not a git repo. Set one up first, use the git \
+action to execute git commands in your notes directory and set things up. \
+Auto-syncing can be enable through the set action.'
 
         try:
             if not repo.remotes:
                 return 'No remotes configured, go figure it out.'
         except AttributeError:
-            return 'Git was not configured.'
+            return 'Git is not set up correctly.'
 
         repo.git.remote('update')
         commits_behind = len([i for i in repo.iter_commits(
@@ -79,29 +115,6 @@ class BronoteAction(ABC):
         except GitCommandError:
             pass
         git.push('origin', 'master')
-
-    def repo_init(self):
-        """Initialize the git repo."""
-        exit_text = 'Cancelled repo initialization.'
-
-        i = input('Notes folder is not a repo, initialize one? (y/n): ')
-        if i != 'y':
-            return exit_text
-        repo = Repo.init(self.cfg.dir)
-
-        i = input('Set up a remote now? (y/n): ')
-        if i != 'y':
-            return exit_text
-
-        i = input('Origin url: ')
-        repo.create_remote('origin', i)
-        self.push(repo)
-
-        i = input('Enable auto syncing? (y/n): ')
-        if i == 'y':
-            self.cfg.enable_autosync()
-
-        return repo
 
     def find_note(self, filename):
         """Find first occurance of a note traversing from the base folder."""
