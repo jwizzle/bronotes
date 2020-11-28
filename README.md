@@ -16,10 +16,6 @@ Functionality so far:
 
 ## Todo
 
-  * Step away from the current git initialization and recommend the user to use git cmd themselves for setup
-  * After that decouple the git init logic (try/except) from base_action
-  * Let the config return a repo object for the sync method or let it return a text stating to use git cmd for initialization
-  * Apply law of demeter, step through code checking if it's shy enough. Possibly refactor things.
   * A lot of new tests need to be done, big chances ugly non-caught errors are present.
     * Especially git-related
 
