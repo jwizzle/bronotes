@@ -8,9 +8,10 @@ from bronotes.config import Text
 class Tree():
     """Represent a filetree of notes."""
 
-    def __init__(self, path):
+    def __init__(self, path, directories_only=False):
         """Construct the tree."""
         self.path = Path(path)
+        self.directories_only = directories_only
         self.tree = self.__build_tree()
 
     def __build_tree(self):
@@ -60,6 +61,9 @@ class Tree():
             tree += f"{self.__traverse_path(entry.path, depth)}"
             return tree
         else:
+            if self.directories_only:
+                return ''
+
             if not entry.name.startswith('.'):
                 return f"{prefix}{entry.name} \n"
 
@@ -78,7 +82,13 @@ class ActionList(BronoteAction):
             'nargs': '?'
         }
     }
-    flags = {}
+    flags = {
+        '--directories': {
+            'short': '-d',
+            'action': 'store_true',
+            'help': 'Only list directories, hide files.'
+        }
+    }
 
     def init(self, args):
         """Construct the action."""
@@ -87,10 +97,11 @@ class ActionList(BronoteAction):
                 self.cfg.dir, args.dir))
         else:
             self.path = self.cfg.dir
+        self.directories = args.directories
 
     def process(self):
         """Process this action."""
         try:
-            return Tree(self.path)
+            return Tree(self.path, self.directories)
         except FileNotFoundError:
             return Text.I_NO_DIR.value
