@@ -92,6 +92,7 @@ class Cfg():
                     {self.dir}.")
 
 
+# TODO This was a horrible idea.
 class Text(Enum):
     """Module-level text constants.
 

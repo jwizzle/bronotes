@@ -82,13 +82,15 @@ class BronoteAction(ABC):
         try:
             repo = Repo(self.cfg.dir)
         except InvalidGitRepositoryError:
-            repo = self.repo_init()
+            return 'Not a git repo. Set one up first, use the git \
+action to execute git commands in your notes directory and set things up. \
+Auto-syncing can be enable through the set action.'
 
         try:
             if not repo.remotes:
                 return 'No remotes configured, go figure it out.'
         except AttributeError:
-            return 'Git was not configured.'
+            return 'Git is not set up correctly.'
 
         repo.git.remote('update')
         commits_behind = len([i for i in repo.iter_commits(
@@ -113,29 +115,6 @@ class BronoteAction(ABC):
         except GitCommandError:
             pass
         git.push('origin', 'master')
-
-    def repo_init(self):
-        """Initialize the git repo."""
-        exit_text = 'Cancelled repo initialization.'
-
-        i = input('Notes folder is not a repo, initialize one? (y/n): ')
-        if i != 'y':
-            return exit_text
-        repo = Repo.init(self.cfg.dir)
-
-        i = input('Set up a remote now? (y/n): ')
-        if i != 'y':
-            return exit_text
-
-        i = input('Origin url: ')
-        repo.create_remote('origin', i)
-        self.push(repo)
-
-        i = input('Enable auto syncing? (y/n): ')
-        if i == 'y':
-            self.cfg.enable_autosync()
-
-        return repo
 
     def find_note(self, filename):
         """Find first occurance of a note traversing from the base folder."""

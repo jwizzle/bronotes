@@ -101,7 +101,7 @@ class ActionList(BronoteAction):
         try:
             self.directories = args.directories
         except AttributeError:
-            self.directories = True
+            self.directories = False
 
     def process(self):
         """Process this action."""
