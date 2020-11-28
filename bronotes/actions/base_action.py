@@ -43,6 +43,40 @@ class BronoteAction(ABC):
         """Process the action."""
         pass
 
+    def add_arguments(self, subparser):
+        """Add an actions arguments to a subparser."""
+        for argument in self.arguments.keys():
+            argdict = self.arguments[argument]
+
+            subparser.add_argument(
+                argument,
+                help=argdict['help'],
+                nargs=argdict['nargs']
+            ).complete = {
+                "zsh": f"_files -W {self.cfg.dir}",
+            }
+
+    def add_flags(self, subparser):
+        """Add an actions flags to a subparser."""
+        for flag in self.flags.keys():
+            flagdict = self.flags[flag]
+
+            subparser.add_argument(
+                flagdict['short'],
+                flag,
+                action=flagdict['action'],
+                help=flagdict['help']
+            )
+
+    def add_subparser(self, subparsers):
+        """Add a subparser based on a actions arguments and flags."""
+        subparser = subparsers.add_parser(
+            self.action, help=self.__doc__)
+
+        subparser.set_defaults(action=self)
+        self.add_arguments(subparser)
+        self.add_flags(subparser)
+
     def sync(self):
         """Sync with git."""
         try:
