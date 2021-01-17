@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bronotes",
-    version="1.6.0",
+    version="1.6.1",
     author="j wizzle",
     author_email="info@hossel.net",
     description="A commandline note organization tool.",
@@ -16,7 +16,7 @@ setuptools.setup(
     url="https://github.com/jwizzle/bronotes",
     packages=setuptools.find_packages(),
     package_data={
-        "bronotes": ["bronotes/config.yml"],
+        "bronotes": ["bronotes/config.yml", "bronotes/config.yml.sample"],
     },
     install_requires=[
         'pyyaml',
