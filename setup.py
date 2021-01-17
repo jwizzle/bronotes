@@ -16,7 +16,7 @@ setuptools.setup(
     url="https://github.com/jwizzle/bronotes",
     packages=setuptools.find_packages(),
     package_data={
-        "bronotes": ["bronotes/config.yml"],
+        "bronotes": ["bronotes/config.yml", "bronotes/config.yml.sample"],
     },
     install_requires=[
         'pyyaml',

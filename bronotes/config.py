@@ -1,9 +1,10 @@
 """Module level config."""
 import os
 import yaml
-from pkg_resources import Requirement, resource_filename
+from pkg_resources import resource_filename
 from enum import Enum
 from pathlib import Path
+from shutil import copyfile
 
 
 class Cfg():
@@ -16,14 +17,14 @@ class Cfg():
     def __init__(self):
         """Construct the config manager."""
         self.cfg_file = resource_filename(__name__, 'config.yml')
-        if os.path.exists(self.cfg_file):
-            with open(self.cfg_file, 'r') as file:
-                self.dict = yaml.load(file, Loader=yaml.SafeLoader)
+        self.cfg_sample = resource_filename(__name__, 'config.yml.sample')
+        self.dict = {}
 
     def init(self):
         """Post-construction initialization."""
-        self.__test_notedir()
+        self.__test_cfg()
         self.__load_cfg()
+        self.__test_notedir()
 
     def set_dir(self, new_dir):
         """Set a new notes directory."""
@@ -43,12 +44,20 @@ class Cfg():
         self.__write_cfg()
         self.__load_cfg()
 
+    def __test_cfg(self):
+        """Test if a config file is present or create it from the sample."""
+        if not os.path.exists(self.cfg_file):
+            copyfile(self.cfg_file, self.cfg_sample)
+
     def __write_cfg(self):
         """Write config updates to file."""
         with open(self.cfg_file, 'w') as file:
             yaml.dump(self.dict, file)
 
     def __load_cfg(self):
+        with open(self.cfg_file, 'r') as file:
+            self.dict = yaml.load(file, Loader=yaml.SafeLoader)
+
         self.dir = Path(self.dict['notes_dir'])
         try:
             self.autosync = self.dict['autosync']
@@ -79,6 +88,7 @@ class Cfg():
 
         self.dict['notes_dir'] = notes_dir
         self.__write_cfg()
+        self.__load_cfg()
 
 
 # TODO This was a horrible idea.
