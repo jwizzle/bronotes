@@ -47,7 +47,7 @@ class Cfg():
     def __test_cfg(self):
         """Test if a config file is present or create it from the sample."""
         if not os.path.exists(self.cfg_file):
-            copyfile(self.cfg_file, self.cfg_sample)
+            copyfile(self.cfg_sample, self.cfg_file)
 
     def __write_cfg(self):
         """Write config updates to file."""
@@ -55,10 +55,15 @@ class Cfg():
             yaml.dump(self.dict, file)
 
     def __load_cfg(self):
+        """Load the cfg file."""
         with open(self.cfg_file, 'r') as file:
             self.dict = yaml.load(file, Loader=yaml.SafeLoader)
 
-        self.dir = Path(self.dict['notes_dir'])
+        if self.dict['notes_dir']:
+            self.dir = Path(self.dict['notes_dir'])
+        else:
+            self.dir = None
+
         try:
             self.autosync = self.dict['autosync']
         except KeyError:
