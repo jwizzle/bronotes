@@ -7,12 +7,10 @@ from bronotes.actions.rm import ActionDel
 from bronotes.config import Text
 
 
-# TODO Test this with recurse
 @pytest.fixture(scope='function', params=[
     'base.md',
     'henk',
     'henk/henk.md',
-    'henk',
     'bladiebladoesntexist'
 ])
 def rm_fixt(request, cfg_fixt):
@@ -41,3 +39,10 @@ class TestRm():
 
         assert (not os.path.exists(rm_fixt.path)
                 or result == Text.E_DIR_NOT_EMPTY.value)
+
+    def test_recurse(self, rm_fixt, dir_fixt):
+        (rm_fixt, argument) = rm_fixt
+        rm_fixt.recurse = True
+        rm_fixt.process()
+
+        assert not os.path.exists(rm_fixt.path)
