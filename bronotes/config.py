@@ -15,8 +15,7 @@ class Cfg():
 
     def __init__(self):
         """Construct the config manager."""
-        self.cfg_file = resource_filename(
-            Requirement.parse('bronotes'), 'bronotes/config.yml')
+        self.cfg_file = resource_filename(__name__, 'config.yml')
         with open(self.cfg_file, 'r') as file:
             self.dict = yaml.load(file, Loader=yaml.SafeLoader)
 
