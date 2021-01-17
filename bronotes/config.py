@@ -1,6 +1,7 @@
 """Module level config."""
 import os
 import yaml
+from pkg_resources import Requirement, resource_filename
 from enum import Enum
 from pathlib import Path
 
@@ -14,18 +15,15 @@ class Cfg():
 
     def __init__(self):
         """Construct the config manager."""
-        self.dict = {}
-        self.global_cfg_file = 'config.yml'
-        self.user_cfg_dir = Path(os.path.join(
-            os.environ['HOME'], '.config/bronotes/'
-        ))
-        self.user_cfg_file = self.user_cfg_dir / 'config.yml'
+        self.cfg_file = resource_filename(
+            Requirement.parse('bronotes'), 'bronotes/config.yml')
+        with open(self.cfg_file, 'r') as file:
+            self.dict = yaml.load(file, Loader=yaml.SafeLoader)
 
     def init(self):
         """Post-construction initialization."""
-        self.__test_global_cfg()
-        self.__load_cfg()
         self.__test_notedir()
+        self.__load_cfg()
 
     def set_dir(self, new_dir):
         """Set a new notes directory."""
@@ -45,51 +43,42 @@ class Cfg():
         self.__write_cfg()
         self.__load_cfg()
 
-    def __initial_config(self):
-        """Initialize user config."""
+    def __write_cfg(self):
+        """Write config updates to file."""
+        with open(self.cfg_file, 'w') as file:
+            yaml.dump(self.dict, file)
+
+    def __load_cfg(self):
+        self.dir = Path(self.dict['notes_dir'])
+        try:
+            self.autosync = self.dict['autosync']
+        except KeyError:
+            self.autosync = False
+
+    def __test_notedir(self):
+        """Create the notes dir if it doesn't exist."""
+        if self.dict['notes_dir']:
+            if os.path.exists(self.dict['notes_dir']):
+                return True
+
         print(Text.I_NO_CONFIG.value)
         notes_dir = input(
             'Where do you want to keep your notes? (full path): ')
 
-        return {
-            'notes_dir': notes_dir,
-        }
-
-    def __write_cfg(self):
-        """Write config updates to file."""
-        with open(self.global_cfg_file, 'w') as file:
-            yaml.dump(self.dict, file)
-
-    def __load_cfg(self):
-        with open(self.global_cfg_file, 'r') as file:
-            self.dict = yaml.load(file, Loader=yaml.SafeLoader)
-            self.dir = Path(self.dict['notes_dir'])
+        if not os.path.exists(notes_dir):
             try:
-                self.autosync = self.dict['autosync']
-            except KeyError:
-                self.autosync = False
-
-    def __test_global_cfg(self):
-        """Create a global config file if it doesn't exist."""
-        if not os.path.isfile(self.global_cfg_file):
-            data = self.__initial_config()
-
-            with open(self.global_cfg_file, 'w') as file:
-                yaml.dump(data, file)
-
-    def __test_notedir(self):
-        """Create the notes dir if it doesn't exist."""
-        if not os.path.exists(self.dict['notes_dir']):
-            try:
-                os.mkdir(self.dict['notes_dir'])
+                os.mkdir(notes_dir)
             except OSError:
                 print(
-                    f"Creation of the directory {self.dir}\
+                    f"Creation of the directory {notes_dir}\
                     failed.")
             else:
                 print(
                     f"Successfully created the directory\
                     {self.dir}.")
+
+        self.dict['notes_dir'] = notes_dir
+        self.__write_cfg()
 
 
 # TODO This was a horrible idea.

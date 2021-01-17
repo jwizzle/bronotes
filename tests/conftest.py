@@ -19,10 +19,16 @@ def dir_fixt(tmpdir_factory):
 
 
 @pytest.fixture(scope='class')
-def cfg_fixt(dir_fixt):
+def cfg_fixt(dir_fixt, tmpdir_factory):
     """Create a config to use in tests."""
+    cfg_dir = tmpdir_factory.mktemp('cfgdir')
+    cfg_file = cfg_dir / 'config.yml'
+    cfg_file.open(mode='w')
+
     cfg = Cfg()
+    cfg.cfg_file = cfg_file
+    cfg.dict = {}
+    cfg.set_dir(dir_fixt)
     cfg.init()
-    cfg.dir = dir_fixt
 
     return cfg
