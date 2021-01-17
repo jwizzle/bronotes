@@ -8,11 +8,7 @@ from shutil import copyfile
 
 
 class Cfg():
-    """Represent the bronotes config.
-
-    Merges multiple levels of config and manages a single source of truth.
-    Reads from defaults, flags, and user defined files.
-    """
+    """Represent the bronotes config."""
 
     def __init__(self):
         """Construct the config manager."""
@@ -96,7 +92,6 @@ class Cfg():
         self.__load_cfg()
 
 
-# TODO This was a horrible idea.
 class Text(Enum):
     """Module-level text constants.
 

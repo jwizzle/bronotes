@@ -1,7 +1,6 @@
 # Bronotes
 
-Basically a wrapper to access notes in a directory on your system anywhere from the commandline.
-Still in development but the basic functionality is there.
+Basically a wrapper to access notes in a directory on your system anywhere from the commandline. And keep it in sync with git.
 
 Functionality so far:
   * Create a note directory on your system on first start
@@ -12,12 +11,7 @@ Functionality so far:
   * List notes dir in a tree
   * Generate autocompletions for zsh
   * Sync with git
-  * Show and edit search for a note if no path to an existing file is given
-
-## Todo
-
-  * A lot of new tests need to be done, big chances ugly non-caught errors are present.
-    * Especially git-related
+  * The show and edit actions search for matching notes if no valid path is given
 
 ## Installation
 

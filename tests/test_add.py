@@ -7,13 +7,10 @@ from bronotes.actions.add import ActionAdd
 from bronotes.config import Text
 
 
-# TODO run these tests with and without recurse
-# TODO Create a test that checks if whats created is what's expected (file/dir)
 @pytest.fixture(scope='function', params=[
     'foo/',
     'foo/',
     'bar.md',
-    '',
     'brap/brap.md',
     'doesnt/exist/'
 ])
@@ -44,3 +41,15 @@ class TestAdd():
 
         assert (os.path.exists(dir_fixt / argument)
                 or result == Text.E_FILE_NOT_FOUND.value)
+
+        if argument[-1] == '/':
+            assert os.path.isdir(dir_fixt / argument)
+        else:
+            assert os.path.isfile(dir_fixt / argument)
+
+    def test_recurse(self, add_fixt, dir_fixt):
+        (add_fixt, argument) = add_fixt
+        add_fixt.recurse = True
+        add_fixt.process()
+
+        assert os.path.exists(dir_fixt / argument)
