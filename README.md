@@ -52,8 +52,9 @@ optional arguments:
   -h, --help   show this help message and exit
 ```
 
-Subcommands have their own help pages.
-When using the edit or show subcommand, it falls back on the -s option if the path to your note is not valid.
+* Subcommands have their own help pages.
+* When using the edit or show subcommand, it falls back on the -s option if the path to your note is not valid.
+* If the first argument given is not recognized by bronotes, a default action will be taken and the first argument will be fed to that action instead. This is configurable with the 'set' action and defaults to 'list'
 
 ### Git
 
