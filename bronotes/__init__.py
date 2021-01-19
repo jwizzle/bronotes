@@ -54,7 +54,8 @@ def main():
 
     if (len(sys.argv) == 2 and sys.argv[1][0] != '-' and
             sys.argv[1] not in actionlist):
-        (args, extra_args) = parser.parse_known_args(['list', sys.argv[1]])
+        (args, extra_args) = parser.parse_known_args(
+            [cfg.default_action, sys.argv[1]])
     else:
         (args, extra_args) = parser.parse_known_args()
 

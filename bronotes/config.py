@@ -28,6 +28,12 @@ class Cfg():
         self.__write_cfg()
         self.__load_cfg()
 
+    def set_default_action(self, action):
+        """Set a default action."""
+        self.dict['default_action'] = str(action)
+        self.__write_cfg()
+        self.__load_cfg()
+
     def enable_autosync(self):
         """Enable auto syncing."""
         self.dict['autosync'] = True
@@ -59,6 +65,11 @@ class Cfg():
             self.dir = Path(self.dict['notes_dir'])
         else:
             self.dir = None
+
+        if 'default_action' in self.dict:
+            self.default_action = self.dict['default_action']
+        else:
+            self.default_action = 'list'
 
         try:
             self.autosync = self.dict['autosync']
