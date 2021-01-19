@@ -19,7 +19,12 @@ class ActionSet(BronoteAction):
             'short': '-s',
             'action': 'store',
             'help': 'Autosync (yes/no/true/false)'
-        }
+        },
+        '--default': {
+            'short': '-D',
+            'action': 'store',
+            'help': 'The default action to take if an argument is not known.'
+        },
     }
 
     def init(self, args):
@@ -34,6 +39,11 @@ class ActionSet(BronoteAction):
         else:
             self.sync = None
 
+        if args.default:
+            self.default = args.default
+        else:
+            self.default = False
+
     def process(self):
         """Process the action."""
         if self.dir:
@@ -44,5 +54,8 @@ class ActionSet(BronoteAction):
                 self.cfg.enable_autosync()
             elif self.sync in ['no', 'false']:
                 self.cfg.disable_autosync()
+
+        if self.default:
+            self.cfg.set_default_action(self.default)
 
         return Text.I_CONFIG_UPDATE.value
