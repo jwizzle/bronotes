@@ -1,6 +1,7 @@
 """Contain the main function of bronotes."""
 import argparse
 import logging
+import sys
 from bronotes.config import cfg
 from bronotes.actions.add import ActionAdd
 from bronotes.actions.rm import ActionDel
@@ -25,6 +26,7 @@ actions = [
     ActionSync(cfg),
     ActionGit(cfg),
 ]
+actionlist = [action.action for action in actions]
 
 
 def get_main_parser():
@@ -50,7 +52,11 @@ def main():
     """Entry point for bronotes."""
     parser = get_main_parser()
 
-    (args, extra_args) = parser.parse_known_args()
+    if (len(sys.argv) == 2 and sys.argv[1][0] != '-' and
+            sys.argv[1] not in actionlist):
+        (args, extra_args) = parser.parse_known_args(['list', sys.argv[1]])
+    else:
+        (args, extra_args) = parser.parse_known_args()
 
     if not hasattr(args, 'action'):
         list_action = ActionList(cfg)
