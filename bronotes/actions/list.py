@@ -92,16 +92,13 @@ class ActionList(BronoteAction):
 
     def init(self, args):
         """Construct the action."""
-        if args.dir:
+        self.set_attributes(args)
+
+        if self.dir:
             self.path = Path(os.path.join(
                 self.cfg.dir, args.dir))
         else:
             self.path = self.cfg.dir
-
-        try:
-            self.directories = args.directories
-        except AttributeError:
-            self.directories = False
 
     def process(self):
         """Process this action."""

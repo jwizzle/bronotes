@@ -25,12 +25,11 @@ class ActionAdd(BronoteAction):
 
     def init(self, args):
         """Construct the action."""
-        self.recurse = args.recurse
-        self.argument = args.argument
+        self.set_attributes(args)
 
-        if args.argument:
+        if self.argument:
             self.path = Path(os.path.join(
-                self.cfg.dir, args.argument))
+                self.cfg.dir, self.argument))
         else:
             self.path = False
 

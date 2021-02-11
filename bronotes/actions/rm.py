@@ -26,9 +26,9 @@ class ActionDel(BronoteAction):
 
     def init(self, args):
         """Construct the action."""
-        self.recurse = args.recurse
+        self.set_attributes(args)
         self.path = Path(os.path.join(
-            self.cfg.dir, args.argument))
+            self.cfg.dir, self.argument))
 
     def process(self):
         """Process the action."""

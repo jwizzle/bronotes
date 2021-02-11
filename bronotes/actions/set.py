@@ -29,25 +29,12 @@ class ActionSet(BronoteAction):
 
     def init(self, args):
         """Construct the action."""
-        if args.dir:
-            self.dir = Path(args.dir)
-        else:
-            self.dir = False
-
-        if args.sync:
-            self.sync = args.sync
-        else:
-            self.sync = None
-
-        if args.default:
-            self.default = args.default
-        else:
-            self.default = False
+        self.set_attributes(args)
 
     def process(self):
         """Process the action."""
         if self.dir:
-            self.cfg.set_dir(self.dir)
+            self.cfg.set_dir(Path(self.dir))
 
         if self.sync is not None:
             if self.sync in ['yes', 'true']:
