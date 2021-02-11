@@ -25,6 +25,11 @@ class ActionSet(BronoteAction):
             'action': 'store',
             'help': 'The default action to take if an argument is not known.'
         },
+        '--list': {
+            'short': '-l',
+            'action': 'store_true',
+            'help': 'List current configuration options',
+        }
     }
 
     def init(self, args):
@@ -33,6 +38,14 @@ class ActionSet(BronoteAction):
 
     def process(self):
         """Process the action."""
+        if self.list:
+            cfglist = ''
+
+            for k, v in self.cfg.dict.items():
+                cfglist += f"{k}: {v} \n"
+
+            return cfglist
+
         if self.dir:
             self.cfg.set_dir(Path(self.dir))
 
