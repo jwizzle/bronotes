@@ -43,6 +43,25 @@ class BronoteAction(ABC):
         """Process the action."""
         pass
 
+    def set_attributes(self, args):
+        """Set attributes based on arguments and flags.
+
+        Parameters:
+            args: Arguments given from CLI
+        """
+        for flag in self.flags.keys():
+            flagname = flag[2:]
+            try:
+                setattr(self, flagname, getattr(args, flagname))
+            except AttributeError:
+                setattr(self, flagname, None)
+
+        for argument in self.arguments.keys():
+            try:
+                setattr(self, argument, getattr(args, argument))
+            except AttributeError:
+                setattr(self, argument, None)
+
     def add_arguments(self, subparser):
         """Add an actions arguments to a subparser."""
         for argument in self.arguments.keys():

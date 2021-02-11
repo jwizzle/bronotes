@@ -32,12 +32,13 @@ class ActionShow(BronoteAction):
 
     def init(self, args):
         """Construct the action."""
-        if not args.search:
+        self.set_attributes(args)
+
+        if not self.search:
             self.note = Path(os.path.join(
-                self.cfg.dir, args.note))
+                self.cfg.dir, self.note))
         else:
-            self.note = self.find_note(args.note)
-        self.copy = args.copy
+            self.note = self.find_note(self.note)
 
     def open(self, note):
         """Return the contents of a note."""
