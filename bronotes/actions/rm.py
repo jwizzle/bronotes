@@ -28,7 +28,7 @@ class ActionDel(BronoteAction):
         """Construct the action."""
         self.set_attributes(args)
         self.path = Path(os.path.join(
-            self.cfg.dir, self.argument))
+            self.cfg.notes_dir, self.argument))
 
     def process(self):
         """Process the action."""

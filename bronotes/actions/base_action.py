@@ -72,7 +72,7 @@ class BronoteAction(ABC):
                 help=argdict['help'],
                 nargs=argdict['nargs']
             ).complete = {
-                "zsh": f"_files -W {self.cfg.dir}",
+                "zsh": f"_files -W {self.cfg.notes_dir}",
             }
 
     def add_flags(self, subparser):
@@ -99,7 +99,7 @@ class BronoteAction(ABC):
     def sync(self):
         """Sync with git."""
         try:
-            repo = Repo(self.cfg.dir)
+            repo = Repo(self.cfg.notes_dir)
         except InvalidGitRepositoryError:
             return 'Not a git repo. Set one up first, use the git \
 action to execute git commands in your notes directory and set things up. \
@@ -137,7 +137,7 @@ Auto-syncing can be enable through the set action.'
 
     def find_note(self, filename):
         """Find first occurance of a note traversing from the base folder."""
-        for node in os.walk(self.cfg.dir):
+        for node in os.walk(self.cfg.notes_dir):
             (basepath, dirs, files) = node
 
             for file in files:

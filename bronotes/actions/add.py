@@ -29,7 +29,7 @@ class ActionAdd(BronoteAction):
 
         if self.argument:
             self.path = Path(os.path.join(
-                self.cfg.dir, self.argument))
+                self.cfg.notes_dir, self.argument))
         else:
             self.path = False
 

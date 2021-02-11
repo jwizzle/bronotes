@@ -27,7 +27,7 @@ class TestList():
 
     def test_init(self, list_fixt, dir_fixt):
         (list_fixt, arg_dir) = list_fixt
-        assert list_fixt.path == Path(f"{dir_fixt}/{arg_dir}")
+        assert Path(list_fixt.path) == Path(f"{dir_fixt}/{arg_dir}")
 
     def test_process(self, list_fixt, dir_fixt):
         (list_fixt, arg_dir) = list_fixt

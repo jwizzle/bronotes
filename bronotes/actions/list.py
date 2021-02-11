@@ -96,9 +96,9 @@ class ActionList(BronoteAction):
 
         if self.dir:
             self.path = Path(os.path.join(
-                self.cfg.dir, args.dir))
+                self.cfg.notes_dir, args.dir))
         else:
-            self.path = self.cfg.dir
+            self.path = self.cfg.notes_dir
 
     def process(self):
         """Process this action."""

@@ -22,9 +22,9 @@ class ActionMove(BronoteAction):
 
     def init(self, args):
         """Construct the action."""
-        self.origin = os.path.join(self.cfg.dir, args.origin)
+        self.origin = os.path.join(self.cfg.notes_dir, args.origin)
         self.destination = os.path.join(
-            self.cfg.dir, args.destination)
+            self.cfg.notes_dir, args.destination)
 
     def process(self):
         """Process the action."""
