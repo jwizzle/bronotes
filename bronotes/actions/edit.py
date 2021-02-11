@@ -28,7 +28,7 @@ class ActionEdit(BronoteAction):
         """Construct the action."""
         if not args.search:
             self.path = Path(os.path.join(
-                self.cfg.dir, args.file))
+                self.cfg.notes_dir, args.file))
         else:
             self.path = self.find_note(args.file)
 
@@ -43,7 +43,7 @@ class ActionEdit(BronoteAction):
                 self.path = search_result
 
         try:
-            os.chdir(self.cfg.dir)
+            os.chdir(self.cfg.notes_dir)
             os.system(f"{os.getenv('EDITOR')} {self.path}")
             if self.cfg.autosync:
                 self.sync()

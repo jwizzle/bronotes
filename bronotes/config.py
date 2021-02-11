@@ -7,6 +7,13 @@ from pathlib import Path
 from shutil import copyfile
 
 
+cfg_options = [
+    'notes_dir',
+    'default_action',
+    'autosync'
+]
+
+
 class Cfg():
     """Represent the bronotes config."""
 
@@ -61,20 +68,11 @@ class Cfg():
         with open(self.cfg_file, 'r') as file:
             self.dict = yaml.load(file, Loader=yaml.SafeLoader)
 
-        if self.dict['notes_dir']:
-            self.dir = Path(self.dict['notes_dir'])
-        else:
-            self.dir = None
-
-        if 'default_action' in self.dict:
-            self.default_action = self.dict['default_action']
-        else:
-            self.default_action = 'list'
-
-        try:
-            self.autosync = self.dict['autosync']
-        except KeyError:
-            self.autosync = False
+        for option in cfg_options:
+            if option in self.dict:
+                setattr(self, option, self.dict[option])
+            else:
+                setattr(self, option, None)
 
     def __test_notedir(self):
         """Create the notes dir if it doesn't exist."""

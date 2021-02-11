@@ -17,7 +17,7 @@ class ActionGit(BronoteAction):
     def process(self, extra_args):
         """Process the action."""
         git_args = ' '.join(extra_args)
-        os.chdir(self.cfg.dir)
+        os.chdir(self.cfg.notes_dir)
         result = os.system(f"git {git_args}")
 
         return result

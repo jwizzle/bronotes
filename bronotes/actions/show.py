@@ -36,7 +36,7 @@ class ActionShow(BronoteAction):
 
         if not self.search:
             self.note = Path(os.path.join(
-                self.cfg.dir, self.note))
+                self.cfg.notes_dir, self.note))
         else:
             self.note = self.find_note(self.note)
 
