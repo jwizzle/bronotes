@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from bronotes.actions.base_action import BronoteAction
 from bronotes.config import Text
+from bronotes import cfg
 
 
 class Tree():
@@ -93,12 +94,7 @@ class ActionList(BronoteAction):
     def init(self, args):
         """Construct the action."""
         self.set_attributes(args)
-
-        if self.dir:
-            self.path = Path(os.path.join(
-                self.cfg.notes_dir, args.dir))
-        else:
-            self.path = self.cfg.notes_dir
+        self.path = self.__decide_dir(args.dir)
 
     def process(self):
         """Process this action."""
@@ -106,3 +102,27 @@ class ActionList(BronoteAction):
             return Tree(self.path, self.directories)
         except FileNotFoundError:
             return Text.I_NO_DIR.value
+
+    def __decide_dir(self, dir_arg):
+        """Decide what directory to list from the given arg."""
+        if self.dir:
+            projected_path = Path(os.path.join(
+                self.cfg.notes_dir, self.dir))
+        else:
+            return self.cfg.notes_dir
+
+        if projected_path.is_dir():
+            return projected_path
+        else:
+            return self.__find_dir(dir_arg)
+
+    def __find_dir(self, dir_arg):
+        """Find a directory if the given path doesn't exist."""
+        for node in os.walk(self.cfg.notes_dir):
+            (basepath, dirs, files) = node
+
+            for d in dirs:
+                if str(dir_arg) in str(d):
+                    return Path(f"{basepath}/{d}")
+
+        return Path(dir_arg)

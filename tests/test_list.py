@@ -11,6 +11,7 @@ from pathlib import Path
     'henk',
     '',
     'absent',
+    'he',
 ])
 def list_fixt(request, cfg_fixt):
     """Fixture for the list action class."""
@@ -27,7 +28,12 @@ class TestList():
 
     def test_init(self, list_fixt, dir_fixt):
         (list_fixt, arg_dir) = list_fixt
-        assert Path(list_fixt.path) == Path(f"{dir_fixt}/{arg_dir}")
+        if arg_dir == 'absent':
+            assert Path(list_fixt.path) == Path('absent')
+        elif arg_dir == 'he':
+            assert Path(list_fixt.path) == Path(f"{dir_fixt}/henk")
+        else:
+            assert Path(list_fixt.path) == Path(f"{dir_fixt}/{arg_dir}")
 
     def test_process(self, list_fixt, dir_fixt):
         (list_fixt, arg_dir) = list_fixt
