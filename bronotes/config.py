@@ -10,7 +10,7 @@ from shutil import copyfile
 cfg_options = [
     'notes_dir',
     'default_action',
-    'autosync'
+    'autosync',
 ]
 
 
