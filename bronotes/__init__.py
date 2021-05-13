@@ -8,6 +8,7 @@ from bronotes.actions.rm import ActionDel
 from bronotes.actions.edit import ActionEdit
 from bronotes.actions.list import ActionList
 from bronotes.actions.mv import ActionMove
+from bronotes.actions.exec import ActionExec
 from bronotes.actions.set import ActionSet
 from bronotes.actions.completions import ActionCompletions
 from bronotes.actions.show import ActionShow
@@ -25,6 +26,7 @@ actions = [
     ActionShow(cfg),
     ActionSync(cfg),
     ActionGit(cfg),
+    ActionExec(cfg),
 ]
 actionlist = [action.action for action in actions]
 
