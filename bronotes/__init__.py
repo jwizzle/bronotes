@@ -13,7 +13,6 @@ from bronotes.actions.set import ActionSet
 from bronotes.actions.completions import ActionCompletions
 from bronotes.actions.show import ActionShow
 from bronotes.actions.sync import ActionSync
-from bronotes.actions.git import ActionGit
 
 actions = [
     ActionAdd(cfg),
@@ -25,7 +24,6 @@ actions = [
     ActionCompletions(cfg),
     ActionShow(cfg),
     ActionSync(cfg),
-    ActionGit(cfg),
     ActionExec(cfg),
 ]
 actionlist = [action.action for action in actions]
@@ -82,8 +80,6 @@ def main():
     try:
         if args.action.action == 'completions':
             print(args.action.process(parser))
-        elif args.action.action == 'git':
-            print(args.action.process(extra_args))
         elif args.action.action == 'exec':
             print(args.action.process(extra_args))
         else:
