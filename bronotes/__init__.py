@@ -8,6 +8,7 @@ from bronotes.actions.rm import ActionDel
 from bronotes.actions.edit import ActionEdit
 from bronotes.actions.list import ActionList
 from bronotes.actions.mv import ActionMove
+from bronotes.actions.exec import ActionExec
 from bronotes.actions.set import ActionSet
 from bronotes.actions.completions import ActionCompletions
 from bronotes.actions.show import ActionShow
@@ -25,6 +26,7 @@ actions = [
     ActionShow(cfg),
     ActionSync(cfg),
     ActionGit(cfg),
+    ActionExec(cfg),
 ]
 actionlist = [action.action for action in actions]
 
@@ -53,9 +55,13 @@ def main():
     parser = get_main_parser()
 
     if (len(sys.argv) == 2 and sys.argv[1][0] != '-' and
-            sys.argv[1] not in actionlist):
+            sys.argv[1] not in actionlist and
+            cfg.default_action != 'exec'):
         (args, extra_args) = parser.parse_known_args(
             [cfg.default_action, sys.argv[1]])
+    elif cfg.default_action == 'exec' and sys.argv[1] not in actionlist:
+        arglist = [cfg.default_action] + sys.argv[1:]
+        (args, extra_args) = parser.parse_known_args(arglist)
     else:
         (args, extra_args) = parser.parse_known_args()
 
@@ -73,6 +79,8 @@ def main():
         if args.action.action == 'completions':
             print(args.action.process(parser))
         elif args.action.action == 'git':
+            print(args.action.process(extra_args))
+        elif args.action.action == 'exec':
             print(args.action.process(extra_args))
         else:
             print(args.action.process())
