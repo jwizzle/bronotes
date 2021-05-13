@@ -31,6 +31,9 @@ $ bnote completions | tee ~/.oh-my-zsh/completions/_BRONOTES
 
 ## Usage
 
+By default this wraps any shell command you feed it and executes it in your notes directory. When using any of the defined actions (see bnote -h) it will do that instead.
+The default can be changed, and the regular shell alternatives for actions like 'rm' can be used by just using the 'exec' action manually.
+
 ```bash
 $ bnote -h
 usage: bnote [-h] action ...
