@@ -10,7 +10,7 @@ Functionality so far:
   * Edit notes with your $EDITOR
   * List notes dir in a tree
   * Generate autocompletions for zsh
-  * Sync with git
+  * Execute arbitrary commands in the notes directory
   * The show and edit actions search for matching notes if no valid path is given
 
 ## Installation
@@ -35,29 +35,27 @@ By default this wraps any shell command you feed it and executes it in your note
 The default can be changed, and the regular shell alternatives for actions like 'rm' can be used by just using the 'exec' action manually.
 
 ```bash
-$ bnote -h
-usage: bnote [-h] action ...
+$ bnote -h # For actions overview, actions have their own sub help-pages.
+```
 
-positional arguments:
-  action       Bronote actions.
-    add        Add a note or directory.
-    rm         Delete a note or directory.
-    list       Show the notes structure as a tree.
-    edit       Edit a note.
-    mv         Move a note or directory.
-    set        Set config options.
-    completions
-               Generate zsh autocompletions.
-    show       Show the contents of a note.
-    sync       Sync the notes dir with git.
+```bash
+$ bnote list
+.notes/ 
+|-- baewfweiogn 
+|-- testblaat.md 
+|-- blarpblarp.md
+```
 
-optional arguments:
-  -h, --help   show this help message and exit
+```bash
+$ bnote madness # madness is a great way to browse your markdown files in a local server
+       start  the madness
+         env  production
+      listen  0.0.0.0:3000
 ```
 
 * Subcommands have their own help pages.
 * When using the edit or show subcommand, it falls back on the -s option if the path to your note is not valid.
-* If the first argument given is not recognized by bronotes, a default action will be taken and the first argument will be fed to that action instead. This is configurable with the 'set' action and defaults to 'list'
+* If the first argument given is not recognized by bronotes, a default action will be taken and the first argument will be fed to that action instead. This is configurable with the 'set' action and defaults to 'exec'
 
 ### Git
 
