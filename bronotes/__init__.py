@@ -54,7 +54,11 @@ def main():
     """Entry point for bronotes."""
     parser = get_main_parser()
 
-    if (len(sys.argv) == 2 and sys.argv[1][0] != '-' and
+    # Nasty things to juggle CLI arguments around for different actions
+    # TODO: This is nasty as hell
+    if sys.argv[1] == '-h' or sys.argv[1] == '--help':
+        (args, extra_args) = parser.parse_known_args(['-h'])
+    elif (len(sys.argv) == 2 and sys.argv[1][0] != '-' and
             sys.argv[1] not in actionlist and
             cfg.default_action != 'exec'):
         (args, extra_args) = parser.parse_known_args(
