@@ -53,17 +53,23 @@ def main():
     parser = get_main_parser()
 
     # Nasty things to juggle CLI arguments around for different actions
-    # TODO: This is nasty as hell
-    if sys.argv[1] == '-h' or sys.argv[1] == '--help':
+    # If there's no arguments given just escape this whole mess and parse
+    # things directly
+    if len(sys.argv) == 1:
+        (args, extra_args) = parser.parse_known_args()
+    # We need to capture -h and --help because exec eats everything
+    # so having it set as a default action prevents -h usage.
+    elif sys.argv[1] == '-h' or sys.argv[1] == '--help':
         (args, extra_args) = parser.parse_known_args(['-h'])
-    elif (len(sys.argv) == 2 and sys.argv[1][0] != '-' and
-            sys.argv[1] not in actionlist and
-            cfg.default_action != 'exec'):
-        (args, extra_args) = parser.parse_known_args(
-            [cfg.default_action, sys.argv[1]])
-    elif cfg.default_action == 'exec' and sys.argv[1] not in actionlist:
+    # If the first argument is not in the actionlist pass following arguments
+    # to the default action
+    elif (
+            sys.argv[1][0] != '-' and
+            sys.argv[1] not in actionlist
+          ):
         arglist = [cfg.default_action] + sys.argv[1:]
         (args, extra_args) = parser.parse_known_args(arglist)
+    # If non of the others apply just parse arguments normally
     else:
         (args, extra_args) = parser.parse_known_args()
 
