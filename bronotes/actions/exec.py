@@ -5,25 +5,23 @@ from bronotes.actions.base_action import BronoteAction
 
 
 class ActionExec(BronoteAction):
-    """Execute a shell command in the notes folder."""
+    """Execute a shell command in the notes folder.
+
+    Swallows all following args.
+    """
 
     action = 'exec'
-    arguments = {
-        'command': {
-            'help': 'Command to execute.',
-            'nargs': '+',
-        }
-    }
+    arguments = {}
     flags = {}
 
     def init(self, args):
         """Construct the action."""
-        self.set_attributes(args)
+        pass
 
-    def process(self):
+    def process(self, extra_args):
         """Process the action."""
-        command = ' '.join(sys.argv[2:])
+        command = ' '.join(extra_args)
         os.chdir(self.cfg.notes_dir)
         result = os.system(command)
 
-        return result
+        return f"Command exited with {result}."
