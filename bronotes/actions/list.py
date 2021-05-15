@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from bronotes.actions.base_action import BronoteAction
 from bronotes.config import Text
-from bronotes import cfg
 
 
 class Tree():

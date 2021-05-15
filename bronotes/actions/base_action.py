@@ -5,7 +5,6 @@ from datetime import datetime
 from git import Repo
 from git.exc import InvalidGitRepositoryError
 from git.exc import GitCommandError
-from pathlib import Path
 from abc import ABC, abstractmethod
 
 
