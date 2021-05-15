@@ -1,5 +1,6 @@
 """Action to list notes as a tree."""
 import os
+from fuzzy_match import match
 from pathlib import Path
 from bronotes.actions.base_action import BronoteAction
 from bronotes.config import Text
@@ -117,11 +118,17 @@ class ActionList(BronoteAction):
 
     def __find_dir(self, dir_arg):
         """Find a directory if the given path doesn't exist."""
-        for node in os.walk(self.cfg.notes_dir):
-            (basepath, dirs, files) = node
+        choices = []
+        exclude_dirs = ['.git']
+
+        for root, dirs, files in os.walk(self.cfg.notes_dir):
+            dirs[:] = [d for d in dirs if d not in exclude_dirs]
 
             for d in dirs:
-                if str(dir_arg) in str(d):
-                    return Path(f"{basepath}/{d}")
+                choices.append(f"{root}/{d}")
 
-        return Path(dir_arg)
+        (result, match_index) = match.extractOne(dir_arg, choices)
+        if match_index < 0.01:
+            result = Path(dir_arg)
+
+        return Path(result)
