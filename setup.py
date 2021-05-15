@@ -23,7 +23,8 @@ setuptools.setup(
         'shtab',
         'pyperclip',
         'gitpython',
-        'fuzzy_match'
+        'fuzzy_match',
+        'numpy'
     ],
     entry_points={
         'console_scripts': [
