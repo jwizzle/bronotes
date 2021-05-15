@@ -128,5 +128,7 @@ class ActionList(BronoteAction):
                 choices.append(f"{root}/{d}")
 
         (result, match_index) = match.extractOne(dir_arg, choices)
+        if match_index < 0.01:
+            result = Path(dir_arg)
 
         return Path(result)
