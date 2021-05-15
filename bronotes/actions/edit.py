@@ -38,16 +38,10 @@ class ActionEdit(BronoteAction):
             return Text.E_NO_SUCH.value
 
         if not os.path.isfile(self.path):
-            search_result = self.find_note(self.path.name)
-            if search_result:
-                self.path = search_result
-            else:
-                # If there really weren't any known files
-                # create the parent directory first if it's absent
-                for parent in self.path.parents:
-                    if not parent.exists():
-                        os.makedirs(parent)
-                        break
+            for parent in self.path.parents:
+                if not parent.exists():
+                    os.makedirs(parent)
+                    break
 
         try:
             os.chdir(self.cfg.notes_dir)

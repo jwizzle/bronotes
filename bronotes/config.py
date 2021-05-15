@@ -3,7 +3,6 @@ import os
 import yaml
 from pkg_resources import resource_filename
 from enum import Enum
-from pathlib import Path
 from shutil import copyfile
 
 

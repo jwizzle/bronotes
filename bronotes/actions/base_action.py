@@ -1,5 +1,6 @@
 """Base action for bronotes."""
 import os
+from fuzzy_match import match
 from datetime import datetime
 from git import Repo
 from git.exc import InvalidGitRepositoryError
@@ -136,11 +137,22 @@ Auto-syncing can be enable through the set action.'
         git.push('origin', 'master')
 
     def find_note(self, filename):
-        """Find first occurance of a note traversing from the base folder."""
-        for node in os.walk(self.cfg.notes_dir):
-            (basepath, dirs, files) = node
+        """Find best match of a note traversing from the base folder.
+
+        Excludes .git directory.
+        """
+        choices = {}
+        exclude_dirs = ['.git']
+
+        for root, dirs, files in os.walk(self.cfg.notes_dir):
+            dirs[:] = [d for d in dirs if d not in exclude_dirs]
 
             for file in files:
-                if filename in file:
-                    return Path(f"{basepath}/{file}")
-        return False
+                choices[file] = f"{root}/{file}"
+
+        (result, match_index) = match.extractOne(
+            filename,
+            [i for i in choices.keys()]
+        )
+
+        return choices[result]

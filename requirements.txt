@@ -2,3 +2,4 @@ pyyaml
 shtab
 pyperclip
 gitpython
+fuzzy_match
