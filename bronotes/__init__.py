@@ -1,8 +1,4 @@
-"""Contain the main function of bronotes.
-
-Todo:
-    * Create a better search method for when a file is not found
-"""
+"""Contain the main function of bronotes."""
 import argparse
 import logging
 import sys
