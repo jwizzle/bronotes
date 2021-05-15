@@ -1,6 +1,5 @@
 """Execute a shell command in the notes folder."""
 import os
-import sys
 from bronotes.actions.base_action import BronoteAction
 
 
