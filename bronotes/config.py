@@ -6,15 +6,14 @@ from enum import Enum
 from shutil import copyfile
 
 
-cfg_options = [
-    'notes_dir',
-    'default_action',
-    'autosync',
-]
-
-
 class Cfg():
     """Represent the bronotes config."""
+
+    settings = {
+        'dir': 'notes_dir',
+        'sync': 'autosync',
+        'default': 'default_action',
+    }
 
     def __init__(self):
         """Construct the config manager."""
@@ -28,27 +27,11 @@ class Cfg():
         self.__load_cfg()
         self.__test_notedir()
 
-    def set_dir(self, new_dir):
-        """Set a new notes directory."""
-        self.dict['notes_dir'] = str(new_dir)
-        self.__write_cfg()
-        self.__load_cfg()
-
-    def set_default_action(self, action):
-        """Set a default action."""
-        self.dict['default_action'] = str(action)
-        self.__write_cfg()
-        self.__load_cfg()
-
-    def enable_autosync(self):
-        """Enable auto syncing."""
-        self.dict['autosync'] = True
-        self.__write_cfg()
-        self.__load_cfg()
-
-    def disable_autosync(self):
-        """Disable auto syncing."""
-        self.dict['autosync'] = False
+    def set_setting(self, setting, value):
+        """Change a setting."""
+        if not isinstance(value, bool):
+            value = str(value)
+        self.dict[self.settings[setting]] = value
         self.__write_cfg()
         self.__load_cfg()
 
@@ -67,11 +50,17 @@ class Cfg():
         with open(self.cfg_file, 'r') as file:
             self.dict = yaml.load(file, Loader=yaml.SafeLoader)
 
-        for option in cfg_options:
-            if option in self.dict:
-                setattr(self, option, self.dict[option])
+        for short_option in self.settings:
+            long_option = self.settings[short_option]
+
+            if long_option in self.dict:
+                value = self.dict[long_option]
+                if value in ['no', 'No', 'False', 'false', 0, 'n']:
+                    value = False
+
+                setattr(self, long_option, value)
             else:
-                setattr(self, option, None)
+                setattr(self, long_option, None)
 
     def __test_notedir(self):
         """Create the notes dir if it doesn't exist."""

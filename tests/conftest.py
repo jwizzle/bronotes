@@ -28,7 +28,7 @@ def cfg_fixt(dir_fixt, tmpdir_factory):
     cfg = Cfg()
     cfg.cfg_file = cfg_file
     cfg.dict = {}
-    cfg.set_dir(dir_fixt)
+    cfg.set_setting('dir', dir_fixt)
     cfg.init()
 
     return cfg

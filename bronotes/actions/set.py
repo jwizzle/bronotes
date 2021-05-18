@@ -46,16 +46,8 @@ class ActionSet(BronoteAction):
 
             return cfglist
 
-        if self.dir:
-            self.cfg.set_dir(Path(self.dir))
-
-        if self.sync is not None:
-            if self.sync in ['yes', 'true']:
-                self.cfg.enable_autosync()
-            elif self.sync in ['no', 'false']:
-                self.cfg.disable_autosync()
-
-        if self.default:
-            self.cfg.set_default_action(self.default)
+        for setting in self.cfg.settings:
+            if self.__dict__[setting]:
+                self.cfg.set_setting(setting, self.__dict__[setting])
 
         return Text.I_CONFIG_UPDATE.value
