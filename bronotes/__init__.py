@@ -6,7 +6,6 @@ import os
 import importlib
 import inspect
 from bronotes.config import cfg
-from bronotes.actions.list import ActionList
 
 
 def get_actions(names_only=False):
