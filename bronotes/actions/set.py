@@ -1,7 +1,6 @@
 """Set the bronotes config."""
 from bronotes.actions.base_action import BronoteAction
 from bronotes.config import Text
-from pathlib import Path
 
 
 class ActionSet(BronoteAction):
