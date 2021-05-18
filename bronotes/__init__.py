@@ -2,35 +2,49 @@
 import argparse
 import logging
 import sys
+import os
+import importlib
+import inspect
 from bronotes.config import cfg
-from bronotes.actions.add import ActionAdd
-from bronotes.actions.rm import ActionDel
-from bronotes.actions.edit import ActionEdit
 from bronotes.actions.list import ActionList
-from bronotes.actions.mv import ActionMove
-from bronotes.actions.exec import ActionExec
-from bronotes.actions.set import ActionSet
-from bronotes.actions.completions import ActionCompletions
-from bronotes.actions.show import ActionShow
-from bronotes.actions.sync import ActionSync
 
-actions = [
-    ActionAdd(cfg),
-    ActionDel(cfg),
-    ActionList(cfg),
-    ActionEdit(cfg),
-    ActionMove(cfg),
-    ActionSet(cfg),
-    ActionCompletions(cfg),
-    ActionShow(cfg),
-    ActionSync(cfg),
-    ActionExec(cfg),
-]
-actionlist = [action.action for action in actions]
+
+def get_actions(names_only=False):
+    """Generate action classes.
+
+    This scrapes the bronotes/actions folder for files. Then extracts
+    all classes that contain 'Action' (except BronoteAction) and yields
+    them.
+
+    Parameters:
+        names_only: Return only the actions name/command, default is False.
+
+    Yields:
+        BronoteAction: An uninstantiated bronote action.
+        String: Or just the command/name of the actions.
+    """
+    ignore_files = ['__init__.py', 'base_action.py']
+
+    for file in os.listdir('bronotes/actions/'):
+        if file in ignore_files:
+            continue
+
+        for name, cls in inspect.getmembers(
+            importlib.import_module(f"bronotes.actions.{file[:-3]}"),
+            inspect.isclass
+        ):
+            if 'Action' in name and name != 'BronoteAction':
+                if names_only:
+                    yield cls.action
+                else:
+                    yield cls
 
 
 def get_main_parser():
-    """Get the main parser."""
+    """Get the main parser.
+
+    Loops through actions to create subparsers.
+    """
     cfg.init()
     parser = argparse.ArgumentParser(prog='bnote')
     parser.add_argument(
@@ -42,7 +56,7 @@ def get_main_parser():
     subparsers = parser.add_subparsers(
         help='Bronote actions.', metavar='action')
 
-    for action in actions:
+    for action in get_actions():
         action.add_subparser(subparsers)
 
     return parser
@@ -50,8 +64,10 @@ def get_main_parser():
 
 def main():
     """Entry point for bronotes."""
+    # Create the CLI argument parser.
     parser = get_main_parser()
 
+    # TODO The amount of comments here indicate that the code should be simpler
     # Nasty things to juggle CLI arguments around for different actions
     # If there's no arguments given just escape this whole mess and parse
     # things directly
@@ -65,7 +81,7 @@ def main():
     # to the default action
     elif (
             sys.argv[1][0] != '-' and
-            sys.argv[1] not in actionlist
+            sys.argv[1] not in get_actions(names_only=True)
           ):
         arglist = [cfg.default_action] + sys.argv[1:]
         (args, extra_args) = parser.parse_known_args(arglist)
@@ -73,16 +89,22 @@ def main():
     else:
         (args, extra_args) = parser.parse_known_args()
 
+    # If no arguments are given always assume the list action because it's
+    # basically the only one that works without any arguments.
     if not hasattr(args, 'action'):
-        list_action = ActionList(cfg)
+        list_action = ActionList
         args.action = list_action
         args.dir = ''
 
+    # Replace the action arg with an instantiated object.
+    args.action = args.action()
     args.action.init(args)
 
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
 
+    # TODO Figure out a more generic way to handle the 'completions' and 'exec'
+    # exceptions that are currently made here
     try:
         if args.action.action == 'completions':
             print(args.action.process(parser))

@@ -1,4 +1,8 @@
-"""Execute a shell command in the notes folder."""
+"""Execute a shell command in the notes folder.
+
+Todo:
+    * Figure out a way to get zsh completion for subcommands
+"""
 import os
 from bronotes.actions.base_action import BronoteAction
 
