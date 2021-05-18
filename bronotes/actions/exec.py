@@ -1,4 +1,8 @@
-"""Execute a shell command in the notes folder."""
+"""Execute a shell command in the notes folder.
+
+Todo:
+    * Figure out a way to get zsh completion for subcommands
+"""
 import os
 from bronotes.actions.base_action import BronoteAction
 
@@ -17,7 +21,7 @@ class ActionExec(BronoteAction):
         """Construct the action."""
         pass
 
-    def process(self, extra_args):
+    def process(self, extra_args=None, **kwargs):
         """Process the action."""
         command = ' '.join(extra_args)
         os.chdir(self.cfg.notes_dir)

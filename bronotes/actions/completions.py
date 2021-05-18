@@ -14,6 +14,6 @@ class ActionCompletions(BronoteAction):
         """Construct the action."""
         pass
 
-    def process(self, parser):
+    def process(self, parser=None, **kwargs):
         """Process the action."""
         return shtab.complete_zsh(parser)

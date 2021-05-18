@@ -26,7 +26,7 @@ class ActionMove(BronoteAction):
         self.destination = os.path.join(
             self.cfg.notes_dir, args.destination)
 
-    def process(self):
+    def process(self, **kwargs):
         """Process the action."""
         shutil.move(self.origin, self.destination)
 

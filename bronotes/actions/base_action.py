@@ -1,5 +1,6 @@
 """Base action for bronotes."""
 import os
+from bronotes.config import cfg
 from fuzzy_match import match
 from datetime import datetime
 from git import Repo
@@ -29,9 +30,12 @@ class BronoteAction(ABC):
         """Allow flags for the action."""
         pass
 
-    def __init__(self, cfg):
+    def __init__(self, config=False):
         """Construct the action."""
-        self.cfg = cfg
+        if config:
+            self.cfg = config
+        else:
+            self.cfg = cfg
 
     @abstractmethod
     def init(self):
@@ -39,7 +43,7 @@ class BronoteAction(ABC):
         pass
 
     @abstractmethod
-    def process(self):
+    def process(self, **kwargs):
         """Process the action."""
         pass
 
@@ -62,23 +66,25 @@ class BronoteAction(ABC):
             except AttributeError:
                 setattr(self, argument, None)
 
-    def add_arguments(self, subparser):
+    @classmethod
+    def add_arguments(cls, subparser):
         """Add an actions arguments to a subparser."""
-        for argument in self.arguments.keys():
-            argdict = self.arguments[argument]
+        for argument in cls.arguments.keys():
+            argdict = cls.arguments[argument]
 
             subparser.add_argument(
                 argument,
                 help=argdict['help'],
                 nargs=argdict['nargs']
             ).complete = {
-                "zsh": f"_files -W {self.cfg.notes_dir}",
+                "zsh": f"_files -W {cfg.notes_dir}",
             }
 
-    def add_flags(self, subparser):
+    @classmethod
+    def add_flags(cls, subparser):
         """Add an actions flags to a subparser."""
-        for flag in self.flags.keys():
-            flagdict = self.flags[flag]
+        for flag in cls.flags.keys():
+            flagdict = cls.flags[flag]
 
             subparser.add_argument(
                 flagdict['short'],
@@ -87,14 +93,15 @@ class BronoteAction(ABC):
                 help=flagdict['help']
             )
 
-    def add_subparser(self, subparsers):
+    @classmethod
+    def add_subparser(cls, subparsers):
         """Add a subparser based on a actions arguments and flags."""
         subparser = subparsers.add_parser(
-            self.action, help=self.__doc__)
+            cls.action, help=cls.__doc__)
 
-        subparser.set_defaults(action=self)
-        self.add_arguments(subparser)
-        self.add_flags(subparser)
+        subparser.set_defaults(action=cls)
+        cls.add_arguments(subparser)
+        cls.add_flags(subparser)
 
     def sync(self):
         """Sync with git."""
