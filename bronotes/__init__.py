@@ -23,8 +23,9 @@ def get_actions(names_only=False):
         String: Or just the command/name of the actions.
     """
     ignore_files = ['__init__.py', 'base_action.py']
+    actions_folder = os.path.join(os.path.dirname(__file__), 'actions/')
 
-    for file in os.listdir('bronotes/actions/'):
+    for file in os.listdir(actions_folder):
         if file in ignore_files:
             continue
 
