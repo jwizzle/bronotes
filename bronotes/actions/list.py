@@ -96,7 +96,7 @@ class ActionList(BronoteAction):
         self.set_attributes(args)
         self.path = self.__decide_dir(args.dir)
 
-    def process(self):
+    def process(self, **kwargs):
         """Process this action."""
         try:
             return Tree(self.path, self.directories)

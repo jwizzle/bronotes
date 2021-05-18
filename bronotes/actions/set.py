@@ -36,7 +36,7 @@ class ActionSet(BronoteAction):
         """Construct the action."""
         self.set_attributes(args)
 
-    def process(self):
+    def process(self, **kwargs):
         """Process the action."""
         if self.list:
             cfglist = ''

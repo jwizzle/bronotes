@@ -32,7 +32,7 @@ class ActionEdit(BronoteAction):
         else:
             self.path = self.find_note(args.file)
 
-    def process(self):
+    def process(self, **kwargs):
         """Process the action."""
         if self.path is None:
             return Text.E_NO_SUCH.value

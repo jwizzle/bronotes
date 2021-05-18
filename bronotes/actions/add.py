@@ -33,7 +33,7 @@ class ActionAdd(BronoteAction):
         else:
             self.path = False
 
-    def process(self):
+    def process(self, **kwargs):
         """Process the action."""
         if not self.path:
             return 'No arguments given for the add action.'

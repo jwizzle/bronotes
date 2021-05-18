@@ -50,7 +50,7 @@ class ActionShow(BronoteAction):
 
             return contents
 
-    def process(self):
+    def process(self, **kwargs):
         """Process this action."""
         try:
             if os.path.isfile(self.note):

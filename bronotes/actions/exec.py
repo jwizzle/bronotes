@@ -21,7 +21,7 @@ class ActionExec(BronoteAction):
         """Construct the action."""
         pass
 
-    def process(self, extra_args):
+    def process(self, extra_args=None, **kwargs):
         """Process the action."""
         command = ' '.join(extra_args)
         os.chdir(self.cfg.notes_dir)

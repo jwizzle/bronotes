@@ -43,7 +43,7 @@ class BronoteAction(ABC):
         pass
 
     @abstractmethod
-    def process(self):
+    def process(self, **kwargs):
         """Process the action."""
         pass
 

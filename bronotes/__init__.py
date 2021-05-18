@@ -62,39 +62,27 @@ def get_main_parser():
     return parser
 
 
-def main():
-    """Entry point for bronotes."""
-    # Create the CLI argument parser.
-    parser = get_main_parser()
+def parse_args(parser):
+    """Parse CLI arguments."""
+    parser_args = None
 
-    # TODO The amount of comments here indicate that the code should be simpler
-    # Nasty things to juggle CLI arguments around for different actions
-    # If there's no arguments given just escape this whole mess and parse
-    # things directly
     if len(sys.argv) == 1:
-        (args, extra_args) = parser.parse_known_args()
-    # We need to capture -h and --help because exec eats everything
-    # so having it set as a default action prevents -h usage.
+        parser_args = ['list']
     elif sys.argv[1] == '-h' or sys.argv[1] == '--help':
-        (args, extra_args) = parser.parse_known_args(['-h'])
-    # If the first argument is not in the actionlist pass following arguments
-    # to the default action
+        parser_args = ['-h']
     elif (
             sys.argv[1][0] != '-' and
             sys.argv[1] not in get_actions(names_only=True)
           ):
-        arglist = [cfg.default_action] + sys.argv[1:]
-        (args, extra_args) = parser.parse_known_args(arglist)
-    # If non of the others apply just parse arguments normally
-    else:
-        (args, extra_args) = parser.parse_known_args()
+        parser_args = [cfg.default_action] + sys.argv[1:]
 
-    # If no arguments are given always assume the list action because it's
-    # basically the only one that works without any arguments.
-    if not hasattr(args, 'action'):
-        list_action = ActionList
-        args.action = list_action
-        args.dir = ''
+    return parser.parse_known_args(parser_args)
+
+
+def main():
+    """Entry point for bronotes."""
+    parser = get_main_parser()
+    (args, extra_args) = parse_args(parser)
 
     # Replace the action arg with an instantiated object.
     args.action = args.action()
@@ -103,15 +91,11 @@ def main():
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
 
-    # TODO Figure out a more generic way to handle the 'completions' and 'exec'
-    # exceptions that are currently made here
     try:
-        if args.action.action == 'completions':
-            print(args.action.process(parser))
-        elif args.action.action == 'exec':
-            print(args.action.process(extra_args))
-        else:
-            print(args.action.process())
+        print(args.action.process(
+            parser=parser,
+            extra_args=extra_args
+        ))
     except Exception as exc:
         logging.debug(exc)
         print("There was an uncaught exception, \

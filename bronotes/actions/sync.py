@@ -13,7 +13,7 @@ class ActionSync(BronoteAction):
         """Construct the action."""
         pass
 
-    def process(self):
+    def process(self, **kwargs):
         """Process this action."""
         repo = self.sync()
 

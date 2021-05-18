@@ -30,7 +30,7 @@ class ActionDel(BronoteAction):
         self.path = Path(os.path.join(
             self.cfg.notes_dir, self.argument))
 
-    def process(self):
+    def process(self, **kwargs):
         """Process the action."""
         if self.path.is_dir():
             if self.recurse:
