@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bronotes",
-    version="2.3",
+    version="2.3.2",
     author="j wizzle",
     author_email="info@hossel.net",
     description="A commandline note organization tool.",
