@@ -22,7 +22,7 @@ def get_actions(names_only=False):
         BronoteAction: An uninstantiated bronote action.
         String: Or just the command/name of the actions.
     """
-    ignore_files = ['__init__.py', 'base_action.py']
+    ignore_files = ['__init__.py', 'base_action.py', '__pycache__']
     actions_folder = os.path.join(os.path.dirname(__file__), 'actions/')
 
     for file in os.listdir(actions_folder):
